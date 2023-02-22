@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{644BEEB0-0C12-4BC0-B509-6E79F52830D3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "micro", "micro", "{00D2DD22-3636-4704-B0D3-2DDDFC310157}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Faast.Integracion", "Cloud.Faast.Integracion\Cloud.Faast.Integracion.csproj", "{61CDC579-59FD-44C5-9364-73F3A14F1378}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Faast.HangFire", "Cloud.Faast.HangFire\Cloud.Faast.HangFire.csproj", "{2623B519-6C96-46CC-83EB-AFA26D576B5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61CDC579-59FD-44C5-9364-73F3A14F1378}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61CDC579-59FD-44C5-9364-73F3A14F1378}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61CDC579-59FD-44C5-9364-73F3A14F1378}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61CDC579-59FD-44C5-9364-73F3A14F1378}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2623B519-6C96-46CC-83EB-AFA26D576B5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2623B519-6C96-46CC-83EB-AFA26D576B5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2623B519-6C96-46CC-83EB-AFA26D576B5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2623B519-6C96-46CC-83EB-AFA26D576B5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{00D2DD22-3636-4704-B0D3-2DDDFC310157} = {644BEEB0-0C12-4BC0-B509-6E79F52830D3}
+		{61CDC579-59FD-44C5-9364-73F3A14F1378} = {00D2DD22-3636-4704-B0D3-2DDDFC310157}
+		{2623B519-6C96-46CC-83EB-AFA26D576B5B} = {00D2DD22-3636-4704-B0D3-2DDDFC310157}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE849AED-C210-4B51-92E6-70AC1461CD1E}
+	EndGlobalSection
+EndGlobal
