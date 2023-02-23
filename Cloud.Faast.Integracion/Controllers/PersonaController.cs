@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cloud.Core.Proteccion;
+using Cloud.Faast.Integracion.Filters;
 using Cloud.Faast.Integracion.Interface.Repository.Persona;
 using Cloud.Faast.Integracion.Interface.Service.Persona;
 using Cloud.Faast.Integracion.Model.Contract.Persona;
@@ -18,6 +19,7 @@ namespace Cloud.Faast.Integracion.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(AuthorizationFilter))]
     public class PersonaController : ControllerBase
     {
 
