@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Cloud.Core.Proteccion;
 using Cloud.Faast.Integracion.Interface.Repository.Persona;
 using Cloud.Faast.Integracion.Interface.Service.Persona;
 using Cloud.Faast.Integracion.Model.Contract.Persona;
@@ -38,7 +39,7 @@ namespace Cloud.Faast.Integracion.Controllers
 
             PersonaResponseViewModel response = _mapper.Map<PersonaResponseViewModel>(personaResponseDto);
 
-            return Ok(response);
+            return Ok(new ResponseApi("200", "OK", "Token generado correctamente", response));
         }
 
 

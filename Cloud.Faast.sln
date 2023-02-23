@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{644BEEB0-0C1
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "micro", "micro", "{00D2DD22-3636-4704-B0D3-2DDDFC310157}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Faast.Integracion", "Cloud.Faast.Integracion\Cloud.Faast.Integracion.csproj", "{61CDC579-59FD-44C5-9364-73F3A14F1378}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cloud.Faast.Integracion", "Cloud.Faast.Integracion\Cloud.Faast.Integracion.csproj", "{61CDC579-59FD-44C5-9364-73F3A14F1378}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cloud.Faast.HangFire", "Cloud.Faast.HangFire\Cloud.Faast.HangFire.csproj", "{2623B519-6C96-46CC-83EB-AFA26D576B5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cloud.Faast.HangFire", "Cloud.Faast.HangFire\Cloud.Faast.HangFire.csproj", "{2623B519-6C96-46CC-83EB-AFA26D576B5B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
