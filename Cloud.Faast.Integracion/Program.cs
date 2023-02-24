@@ -1,6 +1,3 @@
-using Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad;
-using Cloud.Faast.Integracion.Dao.Repository.Metriks.Empleado;
-using Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,19 +5,10 @@ using NLog;
 using NLog.Web;
 using System;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
-using Cloud.Faast.Integracion.Interface.Repository.Metriks.Empleado;
-using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
-using Cloud.Faast.Integracion.Interface.Repository.Common.Seguridad;
-using Cloud.Faast.Integracion.Interface.Service.Metriks.Empleado;
-using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
-using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
-using Cloud.Faast.Integracion.Service.Metriks.Empleado;
-using Cloud.Faast.Integracion.Service.Metriks.Persona;
-using Cloud.Faast.Integracion.Service.Common.Seguridad;
 using Cloud.Faast.Integracion.Extensions;
 using System.Reflection;
 
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 
 try
@@ -29,6 +17,9 @@ try
     var builder = WebApplication.CreateBuilder(args);
 
     //Configuracion ambientes
+
+    #region Configuracion de variables entorno
+
     IConfiguration configEnvironment;
 
     var builderEnvironment = new ConfigurationBuilder()
@@ -38,49 +29,76 @@ try
 
     configEnvironment = builderEnvironment.Build();
 
+    #endregion
 
     // Add services to the container.
-
     builder.Services.AddControllers(options =>
     {
         options.Filters.Add(typeof(HttpGlobalExceptionFilter));
     });
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
 
-    #region "Configure Assembly Services"
-    builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Repository");
-    builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Service");
+
+    builder.Services.AddEndpointsApiExplorer();
+
+    #region Swagger
+
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddSwaggerGen();
+    
     #endregion
 
+    #region "Configure Assembly Services"
+
+    builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Repository");
+    builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Service");
+    
+    #endregion
+
+    #region AutoMapper
+    
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    
+    #endregion
 
-
-    //Filters
+    #region Filters
+    
     builder.Services.AddScoped<AuthorizationFilter>();
 
-    //Configuracion Entityframework
+    #endregion
+
+    #region Configuracion Entityframework
+
     var progresoConnectionString = builder.Configuration.GetConnectionString("Progreso");
+
     builder.Services.AddDbContext<ProgresoDbContext>(x => x.UseMySql(progresoConnectionString, ServerVersion.AutoDetect(progresoConnectionString)));
 
-    //Sentry
+    #endregion
+
+    #region Sentry
+    
     builder.WebHost.UseSentry();
 
+    #endregion
 
-    // NLog: Setup NLog for Dependency injection
+    #region NLog: Setup NLog for Dependency injection 
+
     builder.Logging.ClearProviders();
     builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
     builder.Host.UseNLog();
 
+    #endregion
 
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
+        #region Swagger
+        
         app.UseSwagger();
         app.UseSwaggerUI();
+        
+        #endregion
     }
 
     app.UseHttpsRedirection();
@@ -91,11 +109,11 @@ try
 
     app.Run();
 
-    //Sentry
+    #region Sentry
+
     app.UseSentryTracing();
 
-
-    GlobalDiagnosticsContext.Set("conexionLog", progresoConnectionString);
+    #endregion
 }
 catch (Exception ex) 
 {
@@ -106,5 +124,5 @@ catch (Exception ex)
 finally
 {
     // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-    NLog.LogManager.Shutdown();
+    LogManager.Shutdown();
 }
