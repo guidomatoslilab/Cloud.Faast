@@ -3,6 +3,13 @@ using Hangfire.Console;
 using Hangfire.SqlServer;
 using Hangfire.RecurringJobAdmin;
 using HangfireBasicAuthenticationFilter;
+using Cloud.Faast.HangFire.Interface.Service.Orsan;
+using Cloud.Faast.HangFire.Service.Orsan;
+using Cloud.Faast.HangFire.Common;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Microsoft.Extensions.Configuration;
+using Cloud.Faast.HangFire.Interface.Repository.Orsan;
+using Cloud.Faast.HangFire.Dao.Repository.Orsan;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,6 +75,18 @@ builder.Services.AddHangfire(config => config
     .UseRecurringJobAdmin()
 );
 
+builder.Services.AddHangfireServer(config => config
+    .Queues = new[] { "transfer_file_to_orsan" }
+);
+
+builder.Services.AddScoped<IOperacionDocumentoRepository, OperacionDocumentoRepository>();
+builder.Services.AddScoped<IOperacionDocumentoService, OperacionDocumentoService>();
+//builder.Services.AddSingleton(configEnvironment);
+
+
+builder.Services.Configure<AppSettings>(configEnvironment.GetSection("AppSettings"));
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -106,5 +125,14 @@ app.UseHangfireDashboard("/hangfire", _dashOption);
 app.MapHangfireDashboard();
 
 app.MapRazorPages();
+
+RecurringJob.AddOrUpdate<IOperacionDocumentoService>
+(
+    "TransferExcelToFTP",
+    x => x.TransferExcelToFTP(null, CancellationToken.None),
+    Cron.Minutely,
+    TimeZoneInfo.Local,
+    queue: "transfer_file_to_orsan"
+);
 
 app.Run();
