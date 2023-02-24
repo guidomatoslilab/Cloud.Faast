@@ -13,57 +13,88 @@ using Cloud.Faast.Integracion.Service.Empleado;
 using Cloud.Faast.Integracion.Service.Persona;
 using Cloud.Faast.Integracion.Service.Seguridad;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using NLog;
+using NLog.Web;
+using System;
 
-var builder = WebApplication.CreateBuilder(args);
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+logger.Debug("init main");
 
-// Add services to the container.
-
-builder.Services.AddControllers(options =>
+try
 {
-    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-});
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IPersonaService, PersonaService>();
-builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
-builder.Services.AddScoped<ISeguridadService, SeguridadService>();
+    var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
-builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
-builder.Services.AddScoped<ISeguridadRepository, SeguridadRepository>();
+    // Add services to the container.
 
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+    });
+    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
 
+    builder.Services.AddScoped<IPersonaService, PersonaService>();
+    builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
+    builder.Services.AddScoped<ISeguridadService, SeguridadService>();
 
-//Filters
-builder.Services.AddScoped<AuthorizationFilter>();
+    builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
+    builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
+    builder.Services.AddScoped<ISeguridadRepository, SeguridadRepository>();
 
-//Configuracion Entityframework
-var progresoConnectionString = builder.Configuration.GetConnectionString("Progreso");
-builder.Services.AddDbContext<ProgresoDbContext>(x => x.UseMySql(progresoConnectionString, ServerVersion.AutoDetect(progresoConnectionString)));
-
-//Sentry
-builder.WebHost.UseSentry();
+    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
-var app = builder.Build();
+    //Filters
+    builder.Services.AddScoped<AuthorizationFilter>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    //Configuracion Entityframework
+    var progresoConnectionString = builder.Configuration.GetConnectionString("Progreso");
+    builder.Services.AddDbContext<ProgresoDbContext>(x => x.UseMySql(progresoConnectionString, ServerVersion.AutoDetect(progresoConnectionString)));
+
+    //Sentry
+    builder.WebHost.UseSentry();
+
+
+    // NLog: Setup NLog for Dependency injection
+    builder.Logging.ClearProviders();
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Host.UseNLog();
+
+
+    var app = builder.Build();
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseHttpsRedirection();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
+
+    //Sentry
+    app.UseSentryTracing();
+
+
+    //GlobalDiagnosticsContext.Set("connectionString", builder.Configuration.GetConnectionString("Progreso"));
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
-
-//Sentry
-app.UseSentryTracing();
+catch (Exception ex) 
+{
+    // NLog: catch setup errors
+    logger.Error(ex, "Stopped program because of exception");
+    throw;
+}
+finally
+{
+    // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
+    NLog.LogManager.Shutdown();
+}
