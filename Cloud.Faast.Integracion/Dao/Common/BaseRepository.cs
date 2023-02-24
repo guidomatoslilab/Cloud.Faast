@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Cloud.Faast.Integracion.Dao.Context;
+using Cloud.Faast.Integracion.Dao.Context.Metriks;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cloud.Faast.Integracion.Dao.Commons;

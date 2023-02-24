@@ -1,7 +1,7 @@
 
 using Cloud.Faast.Integracion.Common.Error;
 using Cloud.Faast.Integracion.Dao.Common;
-using Cloud.Faast.Integracion.Dao.Context;
+using Cloud.Faast.Integracion.Dao.Context.Metriks;
 using Cloud.Faast.Integracion.Interface.Repository;
 using Cloud.Faast.Integracion.Model.Entity;
 using EFCore.BulkExtensions;

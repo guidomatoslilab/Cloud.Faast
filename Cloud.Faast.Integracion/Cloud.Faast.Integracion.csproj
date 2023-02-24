@@ -35,8 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dao\Context\Common\" />
     <Folder Include="DataService\" />
     <Folder Include="Validators\" />
+    <Folder Include="ViewModel\Common\" />
   </ItemGroup>
 
 </Project>

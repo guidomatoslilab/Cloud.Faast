@@ -1,9 +1,8 @@
 ﻿using Cloud.Core.Proteccion;
-using Cloud.Faast.Integracion.Interface.Repository.Persona;
-using Cloud.Faast.Integracion.Interface.Repository.Seguridad;
-using Cloud.Faast.Integracion.Interface.Service.Seguridad;
-using Cloud.Faast.Integracion.Model.Dto.Seguridad;
-using Cloud.Faast.Integracion.Service.Seguridad;
+using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
+using Cloud.Faast.Integracion.Interface.Repository.Common.Seguridad;
+using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
+using Cloud.Faast.Integracion.Service.Common.Seguridad;
 using Cloud.Faast.Integracion.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +14,7 @@ using System.Net;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
+using Cloud.Faast.Integracion.Model.Dto.Common.Seguridad;
 
 namespace Cloud.Faast.Integracion.Filters
 {
@@ -50,7 +50,7 @@ namespace Cloud.Faast.Integracion.Filters
 
                 if (!requestHeader.Any())
                 {
-                    context.Result = new UnauthorizedObjectResult(new ResponseApi("401", "NOK", "Los parametros de header es requerido"));
+                    context.Result = new UnauthorizedObjectResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Los parametros de header es requerido"));
                     return;
                 }
 
@@ -67,7 +67,7 @@ namespace Cloud.Faast.Integracion.Filters
                 var validaHeader = Security.GetHeaderValidation(header);
                 if (validaHeader.httpStatusCode != HttpStatusCode.OK)
                 {
-                    context.Result = new UnauthorizedObjectResult(new ResponseApi("401", "NOK", validaHeader.statusDescription));
+                    context.Result = new UnauthorizedObjectResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, validaHeader.statusDescription));
                     return;
                 }
                 #endregion
@@ -100,11 +100,11 @@ namespace Cloud.Faast.Integracion.Filters
 
                 #region  Validar Api Key
                 var validaApiKey = Security.GetValidationApiKey(header.apiKey);
-                //if (validaApiKey.httpStatusCode != HttpStatusCode.OK)
-                //{
-                //    context.Result = new UnauthorizedObjectResult(new ResponseApi("401", "NOK", validaApiKey.statusDescription));
-                //    return;
-                //}
+                if (validaApiKey.httpStatusCode != HttpStatusCode.OK)
+                {
+                    context.Result = new UnauthorizedObjectResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, validaApiKey.statusDescription));
+                    return;
+                }
                 #endregion
 
                 #region Validar Credenciales API KEY
@@ -113,7 +113,7 @@ namespace Cloud.Faast.Integracion.Filters
 
                 if (keyEntity == null)
                 {
-                    context.Result = new UnauthorizedObjectResult(new ResponseApi("401", "NOK", "Key no puede ser validado de las credenciales enviadas."));
+                    context.Result = new UnauthorizedObjectResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Key no puede ser validado de las credenciales enviadas."));
                     return;
                 }
 
@@ -121,33 +121,26 @@ namespace Cloud.Faast.Integracion.Filters
 
                 if (dataApiKey == null)
                 {
-                    context.Result = new UnauthorizedObjectResult(new ResponseApi("401", "NOK", "Key es inválido."));
+                    context.Result = new UnauthorizedObjectResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Key es inválido."));
                     return;
                 }
 
                 if (!dataApiKey.Status)
                 {
-                    context.Result = new UnauthorizedObjectResult(new ResponseApi("401", "NOK", "Key se encuentra inactivo."));
+                    context.Result = new UnauthorizedObjectResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Key se encuentra inactivo."));
                     return;
                 }
 
                 #endregion
             }
             catch (Exception ex)
-                {
-                context.Result = new UnauthorizedObjectResult(new ResponseApi("401", "NOK", ""));
+            {
+                context.Result = new UnauthorizedObjectResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, ""));
 
                 GeneralHelper.LogSentryIO(ex);
-                try
-                {
-                    _logger.LogError(ex, metodoAction);
 
-                }
-                catch (Exception ex1)
-                {
+                _logger.LogError(ex, metodoAction);
 
-                    throw;
-                }
                 return;
             }
         }
