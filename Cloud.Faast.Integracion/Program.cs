@@ -17,6 +17,8 @@ using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
 using Cloud.Faast.Integracion.Service.Metriks.Empleado;
 using Cloud.Faast.Integracion.Service.Metriks.Persona;
 using Cloud.Faast.Integracion.Service.Common.Seguridad;
+using Cloud.Faast.Integracion.Extensions;
+using System.Reflection;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -47,13 +49,10 @@ try
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
-    builder.Services.AddScoped<IPersonaService, PersonaService>();
-    builder.Services.AddScoped<IEmpleadoService, EmpleadoService>();
-    builder.Services.AddScoped<ISeguridadService, SeguridadService>();
-
-    builder.Services.AddScoped<IPersonaRepository, PersonaRepository>();
-    builder.Services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
-    builder.Services.AddScoped<ISeguridadRepository, SeguridadRepository>();
+    #region "Configure Assembly Services"
+    builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Repository");
+    builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Service");
+    #endregion
 
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
