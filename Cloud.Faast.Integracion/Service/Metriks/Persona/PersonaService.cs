@@ -23,7 +23,6 @@ namespace Cloud.Faast.Integracion.Service.Metriks.Persona
 
         public PersonaResponseDto Buscar(string rut)
         {
-            //throw new Exception("Error prueba");
             PersonaResponseDto persona = _personaRepository.Buscar(rut);
             return persona;
         }

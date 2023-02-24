@@ -26,6 +26,17 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
+    //Configuracion ambientes
+    IConfiguration configEnvironment;
+
+    var builderEnvironment = new ConfigurationBuilder()
+          .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+          .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
+          .AddEnvironmentVariables();
+
+    configEnvironment = builderEnvironment.Build();
+
+
     // Add services to the container.
 
     builder.Services.AddControllers(options =>
@@ -85,7 +96,7 @@ try
     app.UseSentryTracing();
 
 
-    //GlobalDiagnosticsContext.Set("connectionString", builder.Configuration.GetConnectionString("Progreso"));
+    GlobalDiagnosticsContext.Set("conexionLog", progresoConnectionString);
 }
 catch (Exception ex) 
 {
