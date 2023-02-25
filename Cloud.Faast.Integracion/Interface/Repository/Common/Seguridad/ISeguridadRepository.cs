@@ -11,5 +11,6 @@ namespace Cloud.Faast.Integracion.Interface.Repository.Common.Seguridad
     {
         public bool Guardar(ContratoEntity dataItem);
         public ContratoApiKeyEntity ObtenerApiKey(string method, string key, string provider, string country);
+        public UsuarioIntegracionEntity Login(string? usuario, string? clave);
     }
 }

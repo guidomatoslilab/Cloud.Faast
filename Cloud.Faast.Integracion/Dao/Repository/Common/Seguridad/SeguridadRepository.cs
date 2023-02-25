@@ -1,6 +1,7 @@
 ﻿using Cloud.Faast.Integracion.Dao.Context.Metriks;
 using Cloud.Faast.Integracion.Interface.Repository.Common.Seguridad;
 using Cloud.Faast.Integracion.Model.Entity.Common.Seguridad;
+using Cloud.Faast.Integracion.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,10 +34,32 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad
             }
             catch (Exception ex)
             {
+                GeneralHelper.LogSentryIO(ex);
                 _logger.LogError(ex, "SecurityRepository: Save");
+                
                 bandera = false;
             }
             return bandera;
+        }
+
+        public UsuarioIntegracionEntity Login(string? usuario, string? clave)
+        {
+            UsuarioIntegracionEntity? entity;
+            try
+            {
+                entity =  _context.UsuarioIntegracion
+                    .Where(x => x.user.Equals(usuario) && x.password.Equals(clave) && x.status)
+                    .FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                GeneralHelper.LogSentryIO(ex);
+                _logger.LogError(ex, "SecurityRepository: Login");
+                entity = null;
+            }
+
+            return entity;
         }
 
         public ContratoApiKeyEntity ObtenerApiKey(string method, string key, string provider, string country)
@@ -55,6 +78,7 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad
             }
             catch (Exception ex)
             {
+                GeneralHelper.LogSentryIO(ex);
                 _logger.LogError(ex, "SecurityRepository: GetDataApiKey");
                 dataItem = null;
             }

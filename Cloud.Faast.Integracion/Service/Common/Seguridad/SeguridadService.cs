@@ -29,6 +29,24 @@ namespace Cloud.Faast.Integracion.Service.Common.Seguridad
             return _seguridadRepository.Guardar(contrato);
         }
 
+        public LoginResponseDto? Login(LoginRequestDto request)
+        {
+
+            LoginResponseDto? response = null;
+
+            var usuario = _seguridadRepository.Login(request.Usuario, request.Clave);
+
+            if (usuario is not null)
+            {
+                response = new()
+                {
+                    Token = "";
+                };
+            }
+
+            return response;
+        }
+
         public ContratoApiKeyDto ObtenerApiKey(string method, string key, string provider, string country)
         {
             ContratoApiKeyEntity contratoApiKey = _seguridadRepository.ObtenerApiKey(method, key, provider, country);
