@@ -39,7 +39,7 @@ namespace Cloud.Faast.Integracion.Controllers.Common
 
             if (response is null)
             {
-                return Unauthorized(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Usuario y/o clave son incorrectas", null));
+                return Unauthorized(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Usuario y/o clave son incorrectas.", null));
             }
 
             return Ok(new ResponseApi(Variables.CodigosRespuesta.OK.ToString(), Variables.EstadosRespuesta.OK, Variables.MensajesRespuesta.OK, response));

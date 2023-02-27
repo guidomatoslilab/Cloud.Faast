@@ -42,7 +42,7 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad
             return bandera;
         }
 
-        public UsuarioIntegracionEntity Login(string? usuario, string? clave)
+        public UsuarioIntegracionEntity? Login(string? usuario, string? clave)
         {
             UsuarioIntegracionEntity? entity;
             try
@@ -62,9 +62,9 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad
             return entity;
         }
 
-        public ContratoApiKeyEntity ObtenerApiKey(string method, string key, string provider, string country)
+        public ContratoApiKeyEntity? ObtenerApiKey(string method, string key, string provider, string country)
         {
-            ContratoApiKeyEntity dataItem;
+            ContratoApiKeyEntity? dataItem;
             try
             {
                 dataItem = (from api in _context.ContratoApiKey
@@ -83,6 +83,26 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad
                 dataItem = null;
             }
             return dataItem;
+        }
+
+        public UsuarioIntegracionEntity? ObtenerPorUsuario(string? usuario)
+        {
+            UsuarioIntegracionEntity? entity;
+            try
+            {
+                entity = _context.UsuarioIntegracion
+                    .Where(x => x.user.Equals(usuario) && x.status)
+                    .FirstOrDefault();
+
+            }
+            catch (Exception ex)
+            {
+                GeneralHelper.LogSentryIO(ex);
+                _logger.LogError(ex, "SecurityRepository: ObtenerPorUsuario");
+                entity = null;
+            }
+
+            return entity;
         }
     }
 }

@@ -18,7 +18,8 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 {
     [Route("api/v1/Metriks/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(AuthorizationFilter))]
+    //[ServiceFilter(typeof(AuthorizationFilter))]
+    [Authorize]
     public class PersonaController : ControllerBase
     {
 

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Cloud.Core.Proteccion;
+using Cloud.Faast.Integracion.Model.Dto.Common.Seguridad;
+using Cloud.Faast.Integracion.Utils;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Sentry;
@@ -21,9 +24,9 @@ namespace Cloud.Faast.Integracion.Filters
                 return;
 
             // authorization
-            User? user = (User)context.HttpContext.Items["User"];
-            if (user == null)
-                context.Result = new JsonResult(new { message = "Unauthorizedaaa" }) { StatusCode = StatusCodes.Status401Unauthorized };
+            int? userId = (int?)context.HttpContext.Items["UsuarioIntegracionId"];
+            if (userId == null)
+                context.Result = new JsonResult(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Token es inválido", null)) { StatusCode = StatusCodes.Status401Unauthorized };
         }
     }
 }

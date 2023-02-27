@@ -56,5 +56,12 @@ namespace Cloud.Faast.Integracion.Service.Common.Seguridad
 
             return _mapper.Map<ContratoApiKeyDto>(contratoApiKey);
         }
+
+        public UsuarioIntegracionDto? ObtenerPorUsuario(string? usuario)
+        {
+            UsuarioIntegracionEntity? usuarioEncontrado = _seguridadRepository.ObtenerPorUsuario(usuario);
+
+            return _mapper.Map<UsuarioIntegracionDto>(usuarioEncontrado);
+        }
     }
 }

@@ -12,7 +12,9 @@ namespace Cloud.Faast.Integracion.Model.Dto.Common.Seguridad
         public string? Nombre { get; set; }
         public string? Usuario { get; set; }
         public string? Clave { get; set; }
+        public string? Pais { get; set; }
         public string? SecretKey { get; set; }
+        public int TiempoExpiracionToken { get; set; }
         public DateTime FechaCreacion { get; set; }
         public bool Status { get; set; }
 
