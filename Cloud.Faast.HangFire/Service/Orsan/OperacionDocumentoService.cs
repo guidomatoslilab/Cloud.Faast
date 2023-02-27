@@ -137,7 +137,7 @@ namespace Cloud.Faast.HangFire.Service.Orsan
         }
         private string ObtenerNombreArchivoLocal()
         {
-            return $"{DateTime.Now:yyyyMMdd_HHmm}.xlsx";
+            return $"{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
         }
 
         private bool UploadFileToFTP(string nombre_archivo_destino, PerformContext context)
@@ -159,9 +159,12 @@ namespace Cloud.Faast.HangFire.Service.Orsan
                     {
                         client.Connect();
 
-                        using (FileStream fileStream = File.Open(ruta_archivo_local, FileMode.Open, FileAccess.Read))
+                        if (client.IsConnected)
                         {
-                            client.UploadFile(fileStream, $@"{PATH_DESTINO}\{nombre_archivo_destino}");
+                            using (FileStream fileStream = File.Open(ruta_archivo_local, FileMode.Open, FileAccess.Read))
+                            {
+                                client.UploadFile(fileStream, $@"{PATH_DESTINO}/{nombre_archivo_destino}");
+                            }
                         }
 
                         client.Disconnect();
