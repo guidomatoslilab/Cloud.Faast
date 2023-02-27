@@ -12,14 +12,14 @@ namespace Cloud.Faast.Integracion.Utils
 {
     public static class JwtHelper
     {
-        public static string GenerateToken(string userId, string secretKey, int expirationHours)
+        public static string GenerateToken(string userId, string secretKey, int expierationMinutes)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secretKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", userId) }),
-                Expires = DateTime.UtcNow.AddHours(expirationHours),
+                Expires = DateTime.UtcNow.AddMinutes(expierationMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

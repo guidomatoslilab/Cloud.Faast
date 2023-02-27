@@ -3,6 +3,7 @@ using Cloud.Faast.Integracion.Interface.Repository.Common.Seguridad;
 using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
 using Cloud.Faast.Integracion.Model.Dto.Common.Seguridad;
 using Cloud.Faast.Integracion.Model.Entity.Common.Seguridad;
+using Cloud.Faast.Integracion.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,9 +39,11 @@ namespace Cloud.Faast.Integracion.Service.Common.Seguridad
 
             if (usuario is not null)
             {
+                var token = JwtHelper.GenerateToken(usuario.id.ToString(), usuario.secret_key,usuario.token_expiration_time);
+                
                 response = new()
                 {
-                    Token = "";
+                    Token = token
                 };
             }
 
