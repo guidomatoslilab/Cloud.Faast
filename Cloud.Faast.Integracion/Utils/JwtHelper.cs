@@ -12,14 +12,14 @@ namespace Cloud.Faast.Integracion.Utils
 {
     public static class JwtHelper
     {
-        public static string GenerateToken(string userId, string secretKey, int expierationMinutes)
+        public static string GenerateToken(string userId, string secretKey, int expirationMinutes)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secretKey);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[] { new Claim("id", userId) }),
-                Expires = DateTime.UtcNow.AddMinutes(expierationMinutes),
+                Expires = DateTime.UtcNow.AddMinutes(expirationMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -41,6 +41,7 @@ namespace Cloud.Faast.Integracion.Utils
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
                     ValidateAudience = false,
+                    ValidateLifetime = true,
                     // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);

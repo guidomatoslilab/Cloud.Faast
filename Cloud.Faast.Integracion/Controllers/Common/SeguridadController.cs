@@ -35,12 +35,14 @@ namespace Cloud.Faast.Integracion.Controllers.Common
         {
             LoginRequestDto requestDto = _mapper.Map<LoginRequestDto>(requestViewModel);
 
-            LoginResponseDto? response = _seguridadService.Login(requestDto);
+            LoginResponseDto? loginResponseDto = _seguridadService.Login(requestDto);
 
-            if (response is null)
+            if (loginResponseDto is null)
             {
                 return Unauthorized(new ResponseApi(Variables.CodigosRespuesta.UNAUTHORIZED.ToString(), Variables.EstadosRespuesta.NOK, "Usuario y/o clave son incorrectas.", null));
             }
+            
+            LoginResponseViewModel response = _mapper.Map<LoginResponseViewModel>(loginResponseDto);
 
             return Ok(new ResponseApi(Variables.CodigosRespuesta.OK.ToString(), Variables.EstadosRespuesta.OK, Variables.MensajesRespuesta.OK, response));
         }
