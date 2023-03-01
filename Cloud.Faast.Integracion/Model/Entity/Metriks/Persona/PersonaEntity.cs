@@ -14,6 +14,7 @@ namespace Cloud.Faast.Integracion.Model.Entity.Metriks.Persona
         public string? prg_vch_razonsocial { get; set; }
         public string? prg_vch_nombre { get; set; }
         public int prg_int_idtipo { get; set; }
+        public int prg_int_estado { get; set; }
 
         public Func<PersonaEntity> GetKey()
         {

@@ -10,7 +10,7 @@ namespace Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona
 {
     public interface IPersonaRepository
     {
-        PersonaResponseDto Buscar(string rut);
+        List<PersonaResponseDto> Buscar(string rut, int tipo);
         Task<BusquedaPersonaResponseDto> SearchPersona(BusquedaPersonaRequestDto requestDto);
     }
 }
