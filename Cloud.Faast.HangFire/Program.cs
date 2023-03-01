@@ -10,6 +10,10 @@ using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Microsoft.Extensions.Configuration;
 using Cloud.Faast.HangFire.Interface.Repository.Orsan;
 using Cloud.Faast.HangFire.Dao.Repository.Orsan;
+using Cloud.Faast.HangFire.Extensions;
+using System.Reflection;
+using Cloud.Faast.HangFire.Dao.Context;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,9 +83,22 @@ builder.Services.AddHangfireServer(config => config
     .Queues = new[] { "transfer_file_to_orsan" }
 );
 
-builder.Services.AddScoped<IOperacionDocumentoRepository, OperacionDocumentoRepository>();
-builder.Services.AddScoped<IOperacionDocumentoService, OperacionDocumentoService>();
+//builder.Services.AddScoped<IOperacionDocumentoRepository, OperacionDocumentoRepository>();
+//builder.Services.AddScoped<IOperationDocumentoRepository, OperationDocumentoRepository>();
+//builder.Services.AddScoped<IOperacionDocumentoService, OperacionDocumentoService>();
 //builder.Services.AddSingleton(configEnvironment);
+
+#region "Configure Assembly Services"
+builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.HangFire"), "Repository");
+builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.HangFire"), "Service");
+#endregion
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+//Configuracion Entityframework
+var orsanConnectionString = builder.Configuration.GetConnectionString("FastOrsan");
+builder.Services.AddDbContextPool<OrsanDbContext>(options => options.UseSqlServer(orsanConnectionString,
+                                                                                    opt => opt.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds)));
 
 
 builder.Services.Configure<AppSettings>(configEnvironment.GetSection("AppSettings"));
@@ -130,7 +147,7 @@ RecurringJob.AddOrUpdate<IOperacionDocumentoService>
 (
     "TransferExcelToFTP",
     x => x.TransferExcelToFTP(null, CancellationToken.None),
-    Cron.Minutely,
+    "0 */5 * ? * *",
     TimeZoneInfo.Local,
     queue: "transfer_file_to_orsan"
 );

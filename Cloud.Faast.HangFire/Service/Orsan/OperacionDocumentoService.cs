@@ -1,4 +1,5 @@
-﻿using Cloud.Faast.HangFire.Common;
+﻿using AutoMapper;
+using Cloud.Faast.HangFire.Common;
 using Cloud.Faast.HangFire.Interface.Repository.Orsan;
 using Cloud.Faast.HangFire.Interface.Service.Orsan;
 using Cloud.Faast.HangFire.Model.Dto.Orsan;
@@ -20,24 +21,29 @@ namespace Cloud.Faast.HangFire.Service.Orsan
         string PATH_DESTINO = "";
         readonly string subFolder = "ORSAN";
 
-        private readonly IOperacionDocumentoRepository _operacionDocumentoRepository;
+        //private readonly IOperacionDocumentoRepository _operacionDocumentoRepository;
+        private readonly IOperationDocumentoRepository _operacionDocumentoRepository;
         private readonly IOptions<AppSettings> _appSettings;
+        private readonly IMapper _mapper;
 
         public OperacionDocumentoService
         (
-            IOperacionDocumentoRepository operacionDocumentoRepository,
+            IOperationDocumentoRepository operacionDocumentoRepository,
+            //IOperacionDocumentoRepository operacionDocumentoRepository,
             IOptions<AppSettings> appSettings
+            , IMapper mapper
         )
         {
             _operacionDocumentoRepository = operacionDocumentoRepository;
             _appSettings = appSettings;
+            _mapper = mapper;
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)] //reintentos, por defecto son 10
         [DisableConcurrentExecution(timeoutInSeconds: 5)] //hacer que espere 1 segundo para que inicie el siguiente y si se lanzan 2 al mismo tiempo o continuo solo entra 1 y los otros caen en deleted
         [DisplayName("Transferir excel a FTP de Orsan")]
         [RetryInQueue("transfer_file_to_orsan")]
-        public void TransferExcelToFTP(PerformContext context, CancellationToken ctoken)
+        public async Task TransferExcelToFTP(PerformContext context, CancellationToken ctoken)
         {
             try
             {
@@ -50,16 +56,24 @@ namespace Cloud.Faast.HangFire.Service.Orsan
 
                 Log.WriteLine(context, "Ejecutando consulta hacia base de datos");
 
-                var listadoProcesar = _operacionDocumentoRepository.ObtenerReporteOperacionDocumento();
+                //var listadoProcesar = _operacionDocumentoRepository.ObtenerReporteOperacionDocumento();
 
-                if (listadoProcesar.Count == 0)
+                var operacionesDocumentoResponseDto = new List<ReporteOperacionDocumentoResponseDto>();
+                var listadoProcesar = await _operacionDocumentoRepository.ToExecuteProcedureWithReturns("sp_sel_reporte_excel_duemint");
+
+                operacionesDocumentoResponseDto.AddRange(from operacionDocumento in listadoProcesar
+                                                         let operacionDocumentoDto = _mapper.Map<ReporteOperacionDocumentoResponseDto>(operacionDocumento)
+                                     select operacionDocumentoDto);
+
+
+                if (operacionesDocumentoResponseDto.Count() == 0)
                 {
                     Log.WriteLine(context, "Consulta no devuelve datos");
                 }
                 else
                 {
-                    Log.WriteLine(context, $"Generando archivo Excel con {listadoProcesar.Count:N0} registro(s)");
-                    excel_ready = ConvertToExcel(listadoProcesar);
+                    Log.WriteLine(context, $"Generando archivo Excel con {operacionesDocumentoResponseDto.Count():N0} registro(s)");
+                    excel_ready = ConvertToExcel(operacionesDocumentoResponseDto);
                 }
 
                 if (excel_ready.Length > 0)
@@ -137,7 +151,7 @@ namespace Cloud.Faast.HangFire.Service.Orsan
         }
         private string ObtenerNombreArchivoLocal()
         {
-            return $"{DateTime.Now:yyyyMMdd_HHmm}.xlsx";
+            return $"{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
         }
 
         private bool UploadFileToFTP(string nombre_archivo_destino, PerformContext context)
@@ -159,9 +173,12 @@ namespace Cloud.Faast.HangFire.Service.Orsan
                     {
                         client.Connect();
 
-                        using (FileStream fileStream = File.Open(ruta_archivo_local, FileMode.Open, FileAccess.Read))
+                        if (client.IsConnected)
                         {
-                            client.UploadFile(fileStream, $@"{PATH_DESTINO}\{nombre_archivo_destino}");
+                            using (FileStream fileStream = File.Open(ruta_archivo_local, FileMode.Open, FileAccess.Read))
+                            {
+                                client.UploadFile(fileStream, $@"{PATH_DESTINO}/{nombre_archivo_destino}");
+                            }
                         }
 
                         client.Disconnect();
