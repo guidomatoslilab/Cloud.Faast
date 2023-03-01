@@ -1,4 +1,5 @@
 ﻿using Cloud.Faast.Integracion.Model.Entity.Common.Seguridad;
+using Cloud.Faast.Integracion.Model.Entity.Metriks.Cargo;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Empleado;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
         public DbSet<PersonaEmpleadoEntity> PersonaEmpleado { get; set; }
         public DbSet<EmpleadoEntity> Empleado { get; set; }
         public DbSet<ContratoEntity> Contrato { get; set; }
+        public DbSet<CargoEntity> Cargo { get; set; }
         public DbSet<ContratoApiKeyEntity> ContratoApiKey { get; set; }
 
         public ProgresoDbContext(DbContextOptions<ProgresoDbContext> options) : base(options) { }
@@ -38,6 +40,14 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
             {
                 entity.ToTable("tbl_prg_empleado");
                 entity.HasKey(x => x.prg_int_idempleado);
+
+            });
+
+
+            modelBuilder.Entity<CargoEntity>(entity =>
+            {
+                entity.ToTable("tbl_prg_cargo");
+                entity.HasKey(x => x.prg_int_idcargo);
 
             });
 

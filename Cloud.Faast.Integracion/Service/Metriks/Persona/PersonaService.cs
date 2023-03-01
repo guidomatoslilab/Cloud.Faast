@@ -21,10 +21,16 @@ namespace Cloud.Faast.Integracion.Service.Metriks.Persona
             _personaRepository = personaRepository;
         }
 
-        public PersonaResponseDto Buscar(string rut)
+        public PersonaResponseDto Buscar(PersonaRequestDto request)
         {
-            PersonaResponseDto persona = _personaRepository.Buscar(rut);
-            return persona;
+            List<PersonaResponseDto> personas = _personaRepository.Buscar(request.Rut,request.Tipo);
+
+            PersonaResponseDto response = new()
+            {
+                RazonSocial = "Test"
+            };
+
+            return response;
         }
 
         public async Task<BusquedaPersonaResponseDto> BuscarPersona(BusquedaPersonaRequestDto requestDto)

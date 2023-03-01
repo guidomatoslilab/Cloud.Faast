@@ -38,7 +38,8 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
         {
 
             var personaRequest = _mapper.Map<PersonaRequestDto>(request);
-            PersonaResponseDto personaResponseDto = _personaService.Buscar(rut);
+
+            PersonaResponseDto personaResponseDto = _personaService.Buscar(personaRequest);
 
             PersonaResponseViewModel response = _mapper.Map<PersonaResponseViewModel>(personaResponseDto);
 
