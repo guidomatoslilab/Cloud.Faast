@@ -2,6 +2,7 @@
 using Cloud.Faast.HangFire.Common;
 using Cloud.Faast.HangFire.Interface.Repository.Orsan;
 using Cloud.Faast.HangFire.Interface.Service.Orsan;
+using Cloud.Faast.HangFire.Logic;
 using Cloud.Faast.HangFire.Model.Dto.Orsan;
 using Cloud.Faast.HangFire.Util;
 using Cloud.Faast.HangFire.Util.Orsan;
@@ -21,15 +22,14 @@ namespace Cloud.Faast.HangFire.Service.Orsan
         string PATH_DESTINO = "";
         readonly string subFolder = "ORSAN";
 
-        //private readonly IOperacionDocumentoRepository _operacionDocumentoRepository;
         private readonly IOperationDocumentoRepository _operacionDocumentoRepository;
         private readonly IOptions<AppSettings> _appSettings;
         private readonly IMapper _mapper;
+        private readonly OperacionDocumentoLogic _operacionDocumentoLogic;
 
         public OperacionDocumentoService
         (
             IOperationDocumentoRepository operacionDocumentoRepository,
-            //IOperacionDocumentoRepository operacionDocumentoRepository,
             IOptions<AppSettings> appSettings
             , IMapper mapper
         )
@@ -37,6 +37,7 @@ namespace Cloud.Faast.HangFire.Service.Orsan
             _operacionDocumentoRepository = operacionDocumentoRepository;
             _appSettings = appSettings;
             _mapper = mapper;
+            _operacionDocumentoLogic = new OperacionDocumentoLogic(_operacionDocumentoRepository);
         }
 
         [AutomaticRetry(Attempts = 0, OnAttemptsExceeded = AttemptsExceededAction.Delete)] //reintentos, por defecto son 10
@@ -56,10 +57,8 @@ namespace Cloud.Faast.HangFire.Service.Orsan
 
                 Log.WriteLine(context, "Ejecutando consulta hacia base de datos");
 
-                //var listadoProcesar = _operacionDocumentoRepository.ObtenerReporteOperacionDocumento();
-
                 var operacionesDocumentoResponseDto = new List<ReporteOperacionDocumentoResponseDto>();
-                var listadoProcesar = await _operacionDocumentoRepository.ToExecuteProcedureWithReturns("sp_sel_reporte_excel_duemint");
+                var listadoProcesar = await _operacionDocumentoLogic.ObtenerData();
 
                 operacionesDocumentoResponseDto.AddRange(from operacionDocumento in listadoProcesar
                                                          let operacionDocumentoDto = _mapper.Map<ReporteOperacionDocumentoResponseDto>(operacionDocumento)
