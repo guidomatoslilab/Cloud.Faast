@@ -32,8 +32,8 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
         }
 
 
-        [HttpGet]
-        [Route("[action]/{rut}")]
+        [HttpPost]
+        [Route("[action]")]
         public ActionResult Buscar(PersonaRequestViewModel request)
         {
 

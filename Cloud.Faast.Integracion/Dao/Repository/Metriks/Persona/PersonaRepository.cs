@@ -3,6 +3,7 @@ using Cloud.Faast.Integracion.Dao.Context.Metriks;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,7 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
         public List<PersonaResponseDto> Buscar(string rut, int tipo)
         {
 
+            var x = _context.DbPersonaDto.FromSqlRaw($"select prg_int_idpersona as Id, prg_vch_razonsocial as RazonSocial  from tbl_prg_persona where prg_int_idpersona = 445").ToList();
             List<PersonaResponseDto> lista = _context.Persona.GroupJoin(_context.PersonaEmpleado,persona => persona.prg_int_idpersona,
                 personaempleado => personaempleado.prg_int_idpersona,
                 (persona, personaempleado) =>  new {persona, personaempleado})
@@ -78,10 +80,10 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
                 .Select(s => new PersonaResponseDto()
                 {
                 Id = s.persona.prg_int_idpersona,
-                RazonSocial = s.persona.prg_vch_razonsocial,
-                CorreoEjecutivo = s.empleado.prg_vch_correo,
-                Tipo = s.persona.prg_int_idtipo,
-                Estado = s.persona.prg_int_estado
+                //RazonSocial = s.persona.prg_vch_razonsocial,        
+                //CorreoEjecutivo = s.empleado.prg_vch_correo,
+                //Tipo = s.persona.prg_int_idtipo,
+                //Estado = s.persona.prg_int_estado
                 }).ToList();
 
             return lista;
