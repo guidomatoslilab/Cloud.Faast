@@ -7,6 +7,7 @@ using System;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
 using Cloud.Faast.Integracion.Extensions;
 using System.Reflection;
+using Cloud.Faast.Integracion.Middlewares;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -107,6 +108,13 @@ try
 
     app.MapControllers();
 
+    #region MIDDLEWARES
+
+    // custom jwt auth middleware
+    app.UseMiddleware<JwtMiddleware>();
+
+
+    #endregion
     app.Run();
 
     #region Sentry

@@ -12,10 +12,12 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
         public DbSet<PersonaEntity> Persona { get; set; }
         public DbSet<PersonaEmpleadoEntity> PersonaEmpleado { get; set; }
         public DbSet<EmpleadoEntity> Empleado { get; set; }
+        
+        //DEBERIAN ESTAR EN UNA BD APARTE PARA SEPARAR LA SEGURIDAD DEL NEGOCIO
         public DbSet<ContratoEntity> Contrato { get; set; }
         public DbSet<CargoEntity> Cargo { get; set; }
         public DbSet<ContratoApiKeyEntity> ContratoApiKey { get; set; }
-
+        public DbSet<UsuarioIntegracionEntity> UsuarioIntegracion { get; set; }
         public ProgresoDbContext(DbContextOptions<ProgresoDbContext> options) : base(options) { }
 
 
@@ -65,6 +67,12 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
 
             });
 
+            modelBuilder.Entity<UsuarioIntegracionEntity>(entity =>
+            {
+                entity.ToTable("tbl_usuario_integracion");
+                entity.HasKey(x => x.id);
+
+            });
         }
     }
 }
