@@ -4,6 +4,7 @@ using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +15,6 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
 {
     public class PersonaRepository : BaseRepository<PersonaEntity>, IPersonaRepository
     {
-        private readonly ProgresoDbContext _context;
-
         private readonly CommonRepository unitOfWork;
 
         //public PersonaRepository(ProgresoDbContext context)
@@ -25,7 +24,6 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
 
         public PersonaRepository(ProgresoDbContext context) : base(context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             unitOfWork = new CommonRepository(context);
         }
 
@@ -65,28 +63,29 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
             return busquedaPersonaResponseDto;
         }
 
-        public List<PersonaResponseDto> Buscar(string rut, int tipo)
+        public async Task<List<PersonaResponseDto>> Buscar(string rut, int tipo)
         {
 
-            var x = _context.DbPersonaDto.FromSqlRaw($"select prg_int_idpersona as Id, prg_vch_razonsocial as RazonSocial  from tbl_prg_persona where prg_int_idpersona = 445").ToList();
-            List<PersonaResponseDto> lista = _context.Persona.GroupJoin(_context.PersonaEmpleado,persona => persona.prg_int_idpersona,
-                personaempleado => personaempleado.prg_int_idpersona,
-                (persona, personaempleado) =>  new {persona, personaempleado})
-                .SelectMany(s => s.personaempleado.DefaultIfEmpty(),(persona,personaempleado) => new {persona,personaempleado})
-                .GroupJoin(_context.Empleado,ppe => ppe.personaempleado.prg_int_idempleado,
-                empleado => empleado.prg_int_idempleado, (ppe, empleado) => new {ppe, empleado})
-                .SelectMany(s => s.empleado.DefaultIfEmpty(), (ppe, empleado) => new { ppe.ppe.persona.persona, empleado })
-                .Where(w => w.persona.prg_vch_rut.Equals(rut) &&  w.persona.prg_int_estado.Equals(1) && w.persona.prg_int_idtipo.Equals(tipo))
-                .Select(s => new PersonaResponseDto()
-                {
-                Id = s.persona.prg_int_idpersona,
-                //RazonSocial = s.persona.prg_vch_razonsocial,        
-                //CorreoEjecutivo = s.empleado.prg_vch_correo,
-                //Tipo = s.persona.prg_int_idtipo,
-                //Estado = s.persona.prg_int_estado
-                }).ToList();
+            var x = await unitOfWork.ToExecuteProcedureWithReturns($"select prg_int_idpersona as Id, prg_vch_razonsocial as RazonSocial  from tbl_prg_persona where prg_int_idpersona = 445");
 
-            return lista;
+            //List<PersonaResponseDto> lista = unitOfWork.GroupJoin(unitOfWork.PersonaEmpleado,persona => persona.prg_int_idpersona,
+            //    personaempleado => personaempleado.prg_int_idpersona,
+            //    (persona, personaempleado) =>  new {persona, personaempleado})
+            //    .SelectMany(s => s.personaempleado.DefaultIfEmpty(),(persona,personaempleado) => new {persona,personaempleado})
+            //    .GroupJoin(unitOfWork.Empleado,ppe => ppe.personaempleado.prg_int_idempleado,
+            //    empleado => empleado.prg_int_idempleado, (ppe, empleado) => new {ppe, empleado})
+            //    .SelectMany(s => s.empleado.DefaultIfEmpty(), (ppe, empleado) => new { ppe.ppe.persona.persona, empleado })
+            //    .Where(w => w.persona.prg_vch_rut.Equals(rut) &&  w.persona.prg_int_estado.Equals(1) && w.persona.prg_int_idtipo.Equals(tipo))
+            //    .Select(s => new PersonaResponseDto()
+            //    {
+            //    Id = s.persona.prg_int_idpersona,
+            //    //RazonSocial = s.persona.prg_vch_razonsocial,        
+            //    //CorreoEjecutivo = s.empleado.prg_vch_correo,
+            //    //Tipo = s.persona.prg_int_idtipo,
+            //    //Estado = s.persona.prg_int_estado
+            //    }).ToList();
+
+            return new List<PersonaResponseDto>();
 
             //PersonaResponseDto aux = _context.Persona.Where(b => b.prg_vch_rut.Equals(rut))
             //.Select(s => new PersonaResponseDto()
