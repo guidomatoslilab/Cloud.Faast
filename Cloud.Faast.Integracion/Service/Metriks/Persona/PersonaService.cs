@@ -21,9 +21,9 @@ namespace Cloud.Faast.Integracion.Service.Metriks.Persona
             _personaRepository = personaRepository;
         }
 
-        public PersonaResponseDto Buscar(PersonaRequestDto request)
+        public PersonaResponseDto Buscar(PersonaRequestDto requestDto)
         {
-            List<PersonaResponseDto> personas = _personaRepository.Buscar(request.Rut,request.Tipo);
+            BusquedaPersonaEntity? personas = _personaRepository.Buscar(requestDto);
 
             PersonaResponseDto response = new()
             {

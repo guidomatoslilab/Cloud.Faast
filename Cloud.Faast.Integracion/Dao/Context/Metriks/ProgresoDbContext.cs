@@ -13,19 +13,25 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
         public DbSet<PersonaEntity> Persona { get; set; }
         public DbSet<PersonaEmpleadoEntity> PersonaEmpleado { get; set; }
         public DbSet<EmpleadoEntity> Empleado { get; set; }
-        
+
         //DEBERIAN ESTAR EN UNA BD APARTE PARA SEPARAR LA SEGURIDAD DEL NEGOCIO
+
+        #region ENTIDADES DE SEGURIDAD
         public DbSet<ContratoEntity> Contrato { get; set; }
         public DbSet<CargoEntity> Cargo { get; set; }
         public DbSet<ContratoApiKeyEntity> ContratoApiKey { get; set; }
         public DbSet<UsuarioIntegracionEntity> UsuarioIntegracion { get; set; }
-        public DbSet<PersonaResponseDto> DbPersonaDto { get; set; }
+        #endregion
+
+        #region ENTIDADES GENERADAS A PARTIR DE UNA QUERY
+        public DbSet<BusquedaPersonaEntity> BusquedaPersona { get; set; }
+        #endregion
         public ProgresoDbContext(DbContextOptions<ProgresoDbContext> options) : base(options) { }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PersonaResponseDto>().HasNoKey();
+
             modelBuilder.Entity<PersonaEntity>(entity =>
             {
                 entity.ToTable("tbl_prg_persona");
@@ -75,6 +81,11 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
                 entity.HasKey(x => x.id);
 
             });
+
+
+            #region ENTIDADES GENERADAS A PARTIR DE UNA QUERY
+            modelBuilder.Entity<BusquedaPersonaEntity>().HasNoKey();
+            #endregion
         }
     }
 }

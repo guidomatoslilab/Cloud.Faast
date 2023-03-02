@@ -63,38 +63,12 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
             return busquedaPersonaResponseDto;
         }
 
-        public async Task<List<PersonaResponseDto>> Buscar(string rut, int tipo)
+        public BusquedaPersonaEntity? Buscar(PersonaRequestDto requestDto)
         {
+            BusquedaPersonaEntity? entidad = context.BusquedaPersona.FromSqlRaw($"select prg_int_idpersona as Id, prg_vch_razonsocial as RazonSocial  from tbl_prg_persona where prg_int_idpersona = 445").FirstOrDefault();
 
-            var x = await unitOfWork.ToExecuteProcedureWithReturns($"select prg_int_idpersona as Id, prg_vch_razonsocial as RazonSocial  from tbl_prg_persona where prg_int_idpersona = 445");
+            return entidad;
 
-            //List<PersonaResponseDto> lista = unitOfWork.GroupJoin(unitOfWork.PersonaEmpleado,persona => persona.prg_int_idpersona,
-            //    personaempleado => personaempleado.prg_int_idpersona,
-            //    (persona, personaempleado) =>  new {persona, personaempleado})
-            //    .SelectMany(s => s.personaempleado.DefaultIfEmpty(),(persona,personaempleado) => new {persona,personaempleado})
-            //    .GroupJoin(unitOfWork.Empleado,ppe => ppe.personaempleado.prg_int_idempleado,
-            //    empleado => empleado.prg_int_idempleado, (ppe, empleado) => new {ppe, empleado})
-            //    .SelectMany(s => s.empleado.DefaultIfEmpty(), (ppe, empleado) => new { ppe.ppe.persona.persona, empleado })
-            //    .Where(w => w.persona.prg_vch_rut.Equals(rut) &&  w.persona.prg_int_estado.Equals(1) && w.persona.prg_int_idtipo.Equals(tipo))
-            //    .Select(s => new PersonaResponseDto()
-            //    {
-            //    Id = s.persona.prg_int_idpersona,
-            //    //RazonSocial = s.persona.prg_vch_razonsocial,        
-            //    //CorreoEjecutivo = s.empleado.prg_vch_correo,
-            //    //Tipo = s.persona.prg_int_idtipo,
-            //    //Estado = s.persona.prg_int_estado
-            //    }).ToList();
-
-            return new List<PersonaResponseDto>();
-
-            //PersonaResponseDto aux = _context.Persona.Where(b => b.prg_vch_rut.Equals(rut))
-            //.Select(s => new PersonaResponseDto()
-            //{
-            //    Id = s.prg_int_idpersona,
-            //    RazonSocial = s.prg_vch_razonsocial,
-            //    RutEjecutivo = s.prg_vch_rut
-            //}).FirstOrDefault();
-            //return aux;
         }
     }
 }
