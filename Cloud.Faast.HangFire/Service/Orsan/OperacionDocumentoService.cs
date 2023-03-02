@@ -21,6 +21,7 @@ namespace Cloud.Faast.HangFire.Service.Orsan
         string PATH_LOCAL = "";
         string PATH_DESTINO = "";
         readonly string subFolder = "ORSAN";
+        string nombreArchivoLocalGenerado = "";
 
         private readonly IOperationDocumentoRepository _operacionDocumentoRepository;
         private readonly IOptions<AppSettings> _appSettings;
@@ -53,7 +54,7 @@ namespace Cloud.Faast.HangFire.Service.Orsan
 
                 var nombre_archivo_destino = $"{DateTime.Now:yyyyMMdd}.xls";
 
-                byte[] excel_ready = new byte[0];
+                byte[] excel_ready = Array.Empty<byte>();
 
                 Log.WriteLine(context, "Ejecutando consulta hacia base de datos");
 
@@ -65,7 +66,7 @@ namespace Cloud.Faast.HangFire.Service.Orsan
                                      select operacionDocumentoDto);
 
 
-                if (operacionesDocumentoResponseDto.Count() == 0)
+                if (operacionesDocumentoResponseDto.Count == 0)
                 {
                     Log.WriteLine(context, "Consulta no devuelve datos");
                 }
@@ -116,20 +117,19 @@ namespace Cloud.Faast.HangFire.Service.Orsan
         {
             try
             {
+                GenerarNombreArchivoLocal();
                 var ruta_carpeta_local = ObtenerRutaCarpetaLocal();
                 var ruta_archivo_local = ObtenerRutaArchivoLocal();
 
-                if (!Directory.Exists(ruta_archivo_local))
+                if (!Directory.Exists(ruta_carpeta_local))
                 {
                     Directory.CreateDirectory(ruta_carpeta_local);
                 }
 
-                byte[] excel_stream = ExcelUtil.BuildXlsxFile(data);
-
+                var excel_stream = ExcelUtil.BuildXlsxFile(data);
                 File.WriteAllBytes(ruta_archivo_local, excel_stream);
 
                 return excel_stream;
-
             }
             catch (Exception)
             {
@@ -150,7 +150,11 @@ namespace Cloud.Faast.HangFire.Service.Orsan
         }
         private string ObtenerNombreArchivoLocal()
         {
-            return $"{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+            return nombreArchivoLocalGenerado;
+        }
+        private void GenerarNombreArchivoLocal()
+        {
+            nombreArchivoLocalGenerado = $"{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
         }
 
         private bool UploadFileToFTP(string nombre_archivo_destino, PerformContext context)
@@ -159,7 +163,7 @@ namespace Cloud.Faast.HangFire.Service.Orsan
 
             try
             {
-                var ruta_archivo_local = ObtenerRutaArchivoLocal();
+                var ruta_archivo_local = Path.Combine(ObtenerRutaCarpetaLocal(), ObtenerNombreArchivoLocal());
 
                 if (!File.Exists(ruta_archivo_local))
                 {
