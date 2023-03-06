@@ -3,7 +3,7 @@ using Cloud.Faast.Integracion.Common.Error;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
-using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
+using Cloud.Faast.Integracion.Model.QueryResult.Metriks.Persona;
 
 namespace Cloud.Faast.Integracion.Service.Metriks.Persona
 {
