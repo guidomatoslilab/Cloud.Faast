@@ -25,6 +25,12 @@ namespace Cloud.Faast.Integracion.MapperProfiles.Metriks.PersonaProfiles
             CreateMap<PersonaRequestViewModel, PersonaRequestDto>();
 
             #endregion
+
+            #region MAPEO DE ENTITY A DTO
+
+            CreateMap<BusquedaPersonaEntity, PersonaResponseDto>();
+
+            #endregion
         }
     }
 }
