@@ -8,6 +8,7 @@ using Cloud.Faast.Integracion.Dao.Context.Metriks;
 using Cloud.Faast.Integracion.Extensions;
 using System.Reflection;
 using Cloud.Faast.Integracion.Middlewares;
+using Cloud.Faast.Integracion.Common.VariablesEntorno;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -52,6 +53,7 @@ try
 
     builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Repository");
     builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Service");
+    builder.Services.AddServicesAsInterfaces(Assembly.Load("Cloud.Faast.Integracion"), "Query");
     
     #endregion
 
@@ -89,6 +91,11 @@ try
 
     #endregion
 
+    #region Configurar Variables de Entorno
+    
+    builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+    #endregion
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

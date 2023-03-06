@@ -23,7 +23,7 @@ namespace Cloud.Faast.Integracion.Service.Metriks.Persona
 
         public PersonaResponseDto Buscar(PersonaRequestDto requestDto)
         {
-            BusquedaPersonaEntity? personas = _personaRepository.Buscar(requestDto);
+            BusquedaPersonaEntity? persona = _personaRepository.Buscar(requestDto);
 
             PersonaResponseDto response = new()
             {

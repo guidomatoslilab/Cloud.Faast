@@ -1,5 +1,6 @@
 ﻿using Cloud.Faast.Integracion.Dao.Commons;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
+using Cloud.Faast.Integracion.Interface.Queries.Persona;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
@@ -16,15 +17,17 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
     public class PersonaRepository : BaseRepository<PersonaEntity>, IPersonaRepository
     {
         private readonly CommonRepository unitOfWork;
+        private readonly IPersonaQuery _personaQuery;
 
         //public PersonaRepository(ProgresoDbContext context)
         //{
         //    _context = context ?? throw new ArgumentNullException(nameof(context));
         //}
 
-        public PersonaRepository(ProgresoDbContext context) : base(context)
+        public PersonaRepository(ProgresoDbContext context, IPersonaQuery personaQuery) : base(context)
         {
             unitOfWork = new CommonRepository(context);
+            _personaQuery = personaQuery;
         }
 
         public async Task<PersonaEntity> AddPersona(PersonaEntity persona)
@@ -65,7 +68,9 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
 
         public BusquedaPersonaEntity? Buscar(PersonaRequestDto requestDto)
         {
-            BusquedaPersonaEntity? entidad = context.BusquedaPersona.FromSqlRaw($"select prg_int_idpersona as Id, prg_vch_razonsocial as RazonSocial  from tbl_prg_persona where prg_int_idpersona = 445").FirstOrDefault();
+            string query = _personaQuery.Buscar(requestDto);
+
+            BusquedaPersonaEntity? entidad = context.BusquedaPersona.FromSqlRaw(query).AsNoTracking().AsEnumerable().FirstOrDefault();
 
             return entidad;
 
