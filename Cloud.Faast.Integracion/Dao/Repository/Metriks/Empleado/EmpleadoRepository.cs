@@ -1,10 +1,5 @@
 ﻿using Cloud.Faast.Integracion.Interface.Repository.Metriks.Empleado;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Empleado;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Empleado
 {

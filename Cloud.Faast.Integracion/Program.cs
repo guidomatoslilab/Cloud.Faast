@@ -1,22 +1,8 @@
-using Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad;
-using Cloud.Faast.Integracion.Dao.Repository.Metriks.Empleado;
-using Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Filters;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Web;
-using System;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
-using Cloud.Faast.Integracion.Interface.Repository.Metriks.Empleado;
-using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
-using Cloud.Faast.Integracion.Interface.Repository.Common.Seguridad;
-using Cloud.Faast.Integracion.Interface.Service.Metriks.Empleado;
-using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
-using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
-using Cloud.Faast.Integracion.Service.Metriks.Empleado;
-using Cloud.Faast.Integracion.Service.Metriks.Persona;
-using Cloud.Faast.Integracion.Service.Common.Seguridad;
 using Cloud.Faast.Integracion.Extensions;
 using System.Reflection;
 

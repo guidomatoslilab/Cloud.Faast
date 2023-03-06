@@ -1,4 +1,3 @@
-
 using Cloud.Faast.Integracion.Common.Error;
 using Cloud.Faast.Integracion.Dao.Common;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
@@ -20,15 +19,6 @@ public class CommonRepository : BaseRepository<EntityBase>
 
     public virtual void Add<T>(T entity) where T : EntityBase, new()
     {
-
-        if (string.IsNullOrEmpty(entity.UsuarioRegistra))
-        {
-            //throw new RegistrationException(ErrorMessage.RegisterErrorRegister);
-            throw new RegistrationException("No se puede grabar el registro porque no se asigno un valor al campo Usuario Registro.");
-        }
-
-        entity.FechaRegistra = DateTime.Now;
-
         dbSet.Add(entity);
     }
 
@@ -58,22 +48,12 @@ public class CommonRepository : BaseRepository<EntityBase>
 
     public virtual T Update<T>(T entityToUpdate) where T : AuditBase, IGenerateIdentity<T>, new()
     {
-
-        entityToUpdate.FechaModifica = DateTime.Now;
-
-        if (string.IsNullOrEmpty(entityToUpdate.UsuarioModifica))
-        {
-            //throw new UpdateException(ErrorMessage.UpdateErrorRegister);
-            throw new UpdateException("No se puede actualizar el registro porque no se asigno un valor al campo Usuario Modifica.");
-        }
-
         var entityClone = entityToUpdate.GetKey().Invoke();
         var attachedEntry = context.Entry(entityClone);
 
         context.Set<T>().Attach(entityClone);
         attachedEntry.State = EntityState.Unchanged;
         attachedEntry.CurrentValues.SetValues(entityToUpdate);
-        attachedEntry.Property(x => x.Activo).IsModified = true;
 
         return entityClone;
     }

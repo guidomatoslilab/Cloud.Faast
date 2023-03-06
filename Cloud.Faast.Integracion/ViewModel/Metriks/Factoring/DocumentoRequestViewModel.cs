@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cloud.Faast.Integracion.ViewModel.Metriks.Factoring
+﻿namespace Cloud.Faast.Integracion.ViewModel.Metriks.Factoring
 {
     public class DocumentoRequestViewModel
     {

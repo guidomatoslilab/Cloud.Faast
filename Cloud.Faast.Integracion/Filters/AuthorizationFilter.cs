@@ -1,19 +1,9 @@
 ﻿using Cloud.Core.Proteccion;
-using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
-using Cloud.Faast.Integracion.Interface.Repository.Common.Seguridad;
 using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
-using Cloud.Faast.Integracion.Service.Common.Seguridad;
 using Cloud.Faast.Integracion.Utils;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Reflection.PortableExecutable;
-using System.Text;
-using System.Threading.Tasks;
 using Cloud.Faast.Integracion.Model.Dto.Common.Seguridad;
 
 namespace Cloud.Faast.Integracion.Filters

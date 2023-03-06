@@ -1,7 +1,6 @@
 ﻿using Cloud.Faast.Integracion.Model.Entity.Common.Seguridad;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Cloud.Faast.Integracion.Dao.Context.Metriks
 {

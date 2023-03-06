@@ -2,17 +2,10 @@
 using Cloud.Core.Proteccion;
 using Cloud.Faast.Integracion.Filters;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
-using Cloud.Faast.Integracion.Model.Dto.Metriks.Empleado;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Utils;
-using Cloud.Faast.Integracion.ViewModel.Metriks.Empleado;
 using Cloud.Faast.Integracion.ViewModel.Metriks.Persona;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Controllers.Metriks
 {

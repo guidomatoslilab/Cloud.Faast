@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cloud.Faast.Integracion.ViewModel.Metriks.Empleado
+﻿namespace Cloud.Faast.Integracion.ViewModel.Metriks.Empleado
 {
     public class EmpleadoResponseViewModel
     {

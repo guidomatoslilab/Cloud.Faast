@@ -3,24 +3,13 @@ using Cloud.Faast.Integracion.Dao.Context.Metriks;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
 {
     public class PersonaRepository : BaseRepository<PersonaEntity>, IPersonaRepository
     {
         private readonly ProgresoDbContext _context;
-
         private readonly CommonRepository unitOfWork;
-
-        //public PersonaRepository(ProgresoDbContext context)
-        //{
-        //    _context = context ?? throw new ArgumentNullException(nameof(context));
-        //}
 
         public PersonaRepository(ProgresoDbContext context) : base(context)
         {
