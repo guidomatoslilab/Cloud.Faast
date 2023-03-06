@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
+using Cloud.Faast.Integracion.Model.QueryResult.Metriks.Persona;
 using Cloud.Faast.Integracion.ViewModel.Metriks.Persona;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,9 @@ namespace Cloud.Faast.Integracion.MapperProfiles.Metriks.PersonaProfiles
 
             #endregion
 
-            #region MAPEO DE ENTITY A DTO
+            #region MAPEO DE QUERY RESULT A DTO
 
-            CreateMap<BusquedaPersonaEntity, PersonaResponseDto>();
+            CreateMap<BusquedaPersonaQueryResult, PersonaResponseDto>();
 
             #endregion
         }

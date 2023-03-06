@@ -4,6 +4,7 @@ using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
+using Cloud.Faast.Integracion.Model.QueryResult.Metriks.Persona;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace Cloud.Faast.Integracion.Service.Metriks.Persona
 
         public PersonaResponseDto Buscar(PersonaRequestDto requestDto)
         {
-            BusquedaPersonaEntity? persona = _personaRepository.Buscar(requestDto);
+            BusquedaPersonaQueryResult? persona = _personaRepository.Buscar(requestDto);
 
             PersonaResponseDto response = _mappper.Map<PersonaResponseDto>(persona);
 

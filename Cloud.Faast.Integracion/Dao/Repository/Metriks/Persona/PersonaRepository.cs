@@ -4,6 +4,7 @@ using Cloud.Faast.Integracion.Interface.Queries.Persona;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
+using Cloud.Faast.Integracion.Model.QueryResult.Metriks.Persona;
 using Microsoft.EntityFrameworkCore;
 using NetTopologySuite.IO;
 using System;
@@ -66,11 +67,11 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
             return busquedaPersonaResponseDto;
         }
 
-        public BusquedaPersonaEntity? Buscar(PersonaRequestDto requestDto)
+        public BusquedaPersonaQueryResult? Buscar(PersonaRequestDto requestDto)
         {
             string query = _personaQuery.Buscar(requestDto);
 
-            BusquedaPersonaEntity? entidad = context.BusquedaPersona.FromSqlRaw(query).AsNoTracking().AsEnumerable().FirstOrDefault();
+            BusquedaPersonaQueryResult? entidad = context.BusquedaPersona.FromSqlRaw(query).AsNoTracking().AsEnumerable().FirstOrDefault();
 
             return entidad;
 
