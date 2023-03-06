@@ -26,9 +26,9 @@ namespace Cloud.Faast.HangFire.Util.Orsan
 
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw ex;
+                throw;
             }
         }
 

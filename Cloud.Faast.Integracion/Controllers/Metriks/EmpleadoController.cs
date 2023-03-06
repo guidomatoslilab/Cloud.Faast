@@ -27,7 +27,7 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
         [Route("[action]/{correo}")]
         public ActionResult BuscarPorCorreo(string correo)
         {
-            EmpleadoResponseDto empleadoResponseDto = _empleadoService.BuscarPorCorreo(correo);
+            EmpleadoResponseDto? empleadoResponseDto = _empleadoService.BuscarPorCorreo(correo);
 
             EmpleadoResponseViewModel response = _mapper.Map<EmpleadoResponseViewModel>(empleadoResponseDto);
 

@@ -13,7 +13,7 @@ namespace Cloud.Faast.HangFire.Util
         public static void WriteError(PerformContext context, string mensaje, bool logFile = true)
             => WriteLine(context, mensaje, ConsoleTextColor.Red, logFile);
 
-        public static void WriteLine(PerformContext context, string mensaje, ConsoleTextColor color = null, bool logFile = true)
+        public static void WriteLine(PerformContext context, string mensaje, ConsoleTextColor? color = null, bool logFile = true)
         {
             string hora_actual = "[" + DateTime.Now.ToString("hh:mm:ss tt") + "] ";
 

@@ -1,5 +1,4 @@
-﻿using Cloud.Faast.HangFire.Model.Dto.Orsan;
-using Hangfire.Server;
+﻿using Hangfire.Server;
 
 namespace Cloud.Faast.HangFire.Interface.Service.Orsan
 {

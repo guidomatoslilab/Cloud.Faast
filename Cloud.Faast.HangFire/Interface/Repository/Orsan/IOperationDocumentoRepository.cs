@@ -5,8 +5,8 @@ namespace Cloud.Faast.HangFire.Interface.Repository.Orsan
     public interface IOperationDocumentoRepository
     {
         Task<IEnumerable<OperacionDocumentoEntity>> ToExecuteProcedureWithReturns(
-            string storedProcedureName = null,
-            params Object[] parameters)
+            string storedProcedureName,
+            params object[] parameters)
             ;
     }
 }
