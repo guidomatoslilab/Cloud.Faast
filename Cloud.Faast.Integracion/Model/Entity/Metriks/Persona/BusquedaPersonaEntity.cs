@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cloud.Faast.Integracion.Model.Dto.Metriks.Persona
+namespace Cloud.Faast.Integracion.Model.Entity.Metriks.Persona
 {
-    public class PersonaResponseDto
+    public class BusquedaPersonaEntity
     {
         public int Id { get; set; }
         public string? RazonSocial { get; set; }
