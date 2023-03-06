@@ -1,24 +1,30 @@
-﻿using Cloud.Faast.Integracion.Common.Error;
+﻿using AutoMapper;
+using Cloud.Faast.Integracion.Common.Error;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
+using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
 
 namespace Cloud.Faast.Integracion.Service.Metriks.Persona
 {
     public class PersonaService : IPersonaService
     {
         private readonly IPersonaRepository _personaRepository;
+        private readonly IMapper _mappper;
 
-        public PersonaService(IPersonaRepository personaRepository)
+        public PersonaService(IPersonaRepository personaRepository, IMapper mappper)
         {
             _personaRepository = personaRepository;
+            _mappper = mappper;
         }
 
-        public PersonaResponseDto Buscar(string rut)
+        public PersonaResponseDto Buscar(PersonaRequestDto requestDto)
         {
-            //throw new Exception("Error prueba");
-            PersonaResponseDto persona = _personaRepository.Buscar(rut);
-            return persona;
+            BusquedaPersonaEntity? persona = _personaRepository.Buscar(requestDto);
+
+            PersonaResponseDto response = _mappper.Map<PersonaResponseDto>(persona);
+
+            return response;
         }
 
         public async Task<BusquedaPersonaResponseDto> BuscarPersona(BusquedaPersonaRequestDto requestDto)

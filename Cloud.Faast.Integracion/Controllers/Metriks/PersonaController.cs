@@ -11,7 +11,7 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 {
     [Route("api/v1/Metriks/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(AuthorizationFilter))]
+    //[ServiceFilter(typeof(AuthorizationFilter))]
     public class PersonaController : ControllerBase
     {
 
@@ -25,11 +25,14 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
         }
 
 
-        [HttpGet]
-        [Route("[action]/{rut}")]
-        public ActionResult Buscar(string rut)
+        [HttpPost]
+        [Route("[action]")]
+        public ActionResult Buscar(PersonaRequestViewModel request)
         {
-            PersonaResponseDto personaResponseDto = _personaService.Buscar(rut);
+
+            var personaRequest = _mapper.Map<PersonaRequestDto>(request);
+
+            PersonaResponseDto personaResponseDto = _personaService.Buscar(personaRequest);
 
             PersonaResponseViewModel response = _mapper.Map<PersonaResponseViewModel>(personaResponseDto);
 

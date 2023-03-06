@@ -16,16 +16,18 @@
     <PackageReference Include="MySql.Data" Version="8.0.32" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="NLog" Version="5.1.2" />
+    <PackageReference Include="NLog.Database" Version="5.1.2" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Scrutor" Version="4.2.1" />
     <PackageReference Include="Sentry.AspNetCore" Version="3.28.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.27.0" />
   </ItemGroup>
   
   <ItemGroup>
     <Content Update="nlog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   
@@ -39,7 +41,6 @@
     <Folder Include="Dao\Context\Common\" />
     <Folder Include="DataService\" />
     <Folder Include="Validators\" />
-    <Folder Include="ViewModel\Common\" />
   </ItemGroup>
 
 </Project>

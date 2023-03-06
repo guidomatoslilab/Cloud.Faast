@@ -1,20 +1,28 @@
 ﻿using Cloud.Faast.Integracion.Dao.Commons;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
+using Cloud.Faast.Integracion.Interface.Queries.Persona;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
+using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.IO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
 {
     public class PersonaRepository : BaseRepository<PersonaEntity>, IPersonaRepository
     {
-        private readonly ProgresoDbContext _context;
         private readonly CommonRepository unitOfWork;
+        private readonly IPersonaQuery _personaQuery;
 
-        public PersonaRepository(ProgresoDbContext context) : base(context)
+        public PersonaRepository(ProgresoDbContext context, IPersonaQuery personaQuery) : base(context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
             unitOfWork = new CommonRepository(context);
+            _personaQuery = personaQuery;
         }
 
         public async Task<PersonaEntity> AddPersona(PersonaEntity persona)
@@ -53,16 +61,14 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
             return busquedaPersonaResponseDto;
         }
 
-        public PersonaResponseDto Buscar(string rut)
+        public BusquedaPersonaEntity? Buscar(PersonaRequestDto requestDto)
         {
-            PersonaResponseDto aux = _context.Persona.Where(b => b.prg_vch_rut.Equals(rut))
-            .Select(s => new PersonaResponseDto()
-            {
-                Id = s.prg_int_idpersona,
-                RazonSocial = s.prg_vch_razonsocial,
-                RutEjecutivo = s.prg_vch_rut
-            }).FirstOrDefault();
-            return aux;
+            string query = _personaQuery.Buscar(requestDto);
+
+            BusquedaPersonaEntity? entidad = context.BusquedaPersona.FromSqlRaw(query).AsNoTracking().AsEnumerable().FirstOrDefault();
+
+            return entidad;
+
         }
     }
 }

@@ -1,6 +1,12 @@
-﻿namespace Cloud.Faast.Integracion.ViewModel.Metriks.Persona
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cloud.Faast.Integracion.Model.Entity.Metriks.Persona
 {
-    public class PersonaResponseViewModel
+    public class BusquedaPersonaEntity
     {
         public int Id { get; set; }
         public string? RazonSocial { get; set; }

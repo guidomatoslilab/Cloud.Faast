@@ -13,4 +13,12 @@ public class OperationDocumentoRepository : BaseRepository<OperacionDocumentoEnt
     {
         unitOfWork = new CommonRepository(context);
     }
+
+    public void ExportarExcel()
+    {
+        var test = unitOfWork.ToExecuteProcedureWithReturns("sdsds");
+        
+    }
+
+
 }

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Cloud.Core.Proteccion;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Empleado;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Empleado;
+using Cloud.Faast.Integracion.Utils;
 using Cloud.Faast.Integracion.ViewModel.Metriks.Empleado;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,14 +24,19 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 
 
         [HttpGet]
-        [Route("[action]/{rut}")]
-        public ActionResult Buscar(string rut)
+        [Route("[action]/{correo}")]
+        public ActionResult BuscarPorCorreo(string correo)
         {
-            EmpleadoResponseDto empleadoResponseDto = _empleadoService.Buscar(rut);
+            EmpleadoResponseDto empleadoResponseDto = _empleadoService.BuscarPorCorreo(correo);
 
             EmpleadoResponseViewModel response = _mapper.Map<EmpleadoResponseViewModel>(empleadoResponseDto);
 
-            return Ok(response);
+            if (response is null)
+            {
+                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, response));
+            }
+
+            return Ok(new ResponseApi(Variables.CodigosRespuesta.OK.ToString(), Variables.EstadosRespuesta.OK, Variables.MensajesRespuesta.OK, response));
         }
     }
 }

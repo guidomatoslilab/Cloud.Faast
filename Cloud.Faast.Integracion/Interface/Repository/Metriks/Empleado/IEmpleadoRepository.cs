@@ -4,6 +4,6 @@ namespace Cloud.Faast.Integracion.Interface.Repository.Metriks.Empleado
 {
     public interface IEmpleadoRepository
     {
-        EmpleadoResponseDto Buscar(string rut);
+        EmpleadoResponseDto BuscarPorCorreo(string correo);
     }
 }
