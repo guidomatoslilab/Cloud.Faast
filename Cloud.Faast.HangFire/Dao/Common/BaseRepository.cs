@@ -16,25 +16,23 @@ namespace Cloud.Faast.HangFire.Dao.Common
         }
 
         public async virtual Task<IEnumerable<T>> ToExecuteProcedureWithReturns(
-            string storedProcedureName = null,
-            params Object[] parameters)
+            string storedProcedureName,
+            params object[] parameters)
         {
             try
             {
                 IQueryable<T> query = dbSet.FromSqlRaw<T>(storedProcedureName, parameters);
                 return await query.ToListAsync();
             }
-            catch (Exception ex)
+            catch
             {
-                string mensaje = ex.ToString();
                 throw;
             }
-
         }
 
         public async virtual Task<IEnumerable<T>> ToListAsync(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             string includeProperties = "")
         {
             IQueryable<T> query = dbSet;
@@ -61,8 +59,8 @@ namespace Cloud.Faast.HangFire.Dao.Common
             }
         }
         public async virtual Task<IEnumerable<T>> CustomToListAsync(
-            Expression<Func<T, T>> columns = null,
-            Expression<Func<T, bool>> filter = null)
+            Expression<Func<T, T>>? columns = null,
+            Expression<Func<T, bool>>? filter = null)
         {
             IQueryable<T> query = dbSet;
 
@@ -79,8 +77,8 @@ namespace Cloud.Faast.HangFire.Dao.Common
             return await query.ToListAsync();
         }
         public virtual IQueryable<T> Query(
-            Expression<Func<T, bool>> filter = null,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+            Expression<Func<T, bool>>? filter = null,
+            Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             string includeProperties = "")
         {
             IQueryable<T> query = dbSet;
@@ -106,7 +104,7 @@ namespace Cloud.Faast.HangFire.Dao.Common
             }
         }
 
-        public async virtual Task<T> FindAsync(
+        public virtual async Task<T?> FindAsync(
             Expression<Func<T, bool>> filter,
             string includeProperties = "")
         {
@@ -132,7 +130,7 @@ namespace Cloud.Faast.HangFire.Dao.Common
             }
         }
 
-        public async virtual Task<T> FindAsync(object id)
+        public virtual async Task<T?> FindAsync(object id)
         {
             return await dbSet.FindAsync(id);
         }

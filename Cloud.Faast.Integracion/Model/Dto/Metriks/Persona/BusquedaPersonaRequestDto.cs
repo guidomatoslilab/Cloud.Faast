@@ -2,6 +2,6 @@
 {
     public class BusquedaPersonaRequestDto
     {
-        public string rut { get; set; }
+        public string rut { get; set; } = "";
     }
 }

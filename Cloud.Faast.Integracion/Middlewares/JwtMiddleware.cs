@@ -1,11 +1,5 @@
 ﻿using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
-using Cloud.Faast.Integracion.Model.Dto.Common.Seguridad;
 using Cloud.Faast.Integracion.Utils;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Middlewares
 {
@@ -30,7 +24,7 @@ namespace Cloud.Faast.Integracion.Middlewares
                 return;
             }
 
-            UsuarioIntegracionDto? usuarioEncontrado = seguridadService.ObtenerPorUsuario(usuario);
+            var usuarioEncontrado = seguridadService.ObtenerPorUsuario(usuario);
 
             if (usuarioEncontrado is null)
             {
@@ -38,7 +32,7 @@ namespace Cloud.Faast.Integracion.Middlewares
                 return;
             }
 
-            var userId = JwtHelper.ValidateToken(token,usuarioEncontrado.SecretKey);
+            var userId = JwtHelper.ValidateToken(token, usuarioEncontrado.SecretKey);
             if (userId != null)
             {
                 // attach user to context on successful jwt validation

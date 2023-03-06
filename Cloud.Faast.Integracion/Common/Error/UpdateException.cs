@@ -2,7 +2,7 @@
 {
     public class UpdateException : Exception
     {
-        public string Code { get; set; }
+        public string Code { get; set; } = "";
 
         public UpdateException(string messsage)
             : base(messsage)

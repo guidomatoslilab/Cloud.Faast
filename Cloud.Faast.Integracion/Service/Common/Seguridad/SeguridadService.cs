@@ -45,14 +45,14 @@ namespace Cloud.Faast.Integracion.Service.Common.Seguridad
             return response;
         }
 
-        public ContratoApiKeyDto ObtenerApiKey(string method, string key, string provider, string country)
+        public ContratoApiKeyDto? ObtenerApiKey(string method, string? key, string? provider, string? country)
         {
-            ContratoApiKeyEntity contratoApiKey = _seguridadRepository.ObtenerApiKey(method, key, provider, country);
+            ContratoApiKeyEntity? contratoApiKey = _seguridadRepository.ObtenerApiKey(method, key, provider, country);
 
-            return _mapper.Map<ContratoApiKeyDto>(contratoApiKey);
+            return _mapper.Map<ContratoApiKeyDto?>(contratoApiKey);
         }
 
-        public UsuarioIntegracionDto? ObtenerPorUsuario(string? usuario)
+        public UsuarioIntegracionDto? ObtenerPorUsuario(string usuario)
         {
             UsuarioIntegracionEntity? usuarioEncontrado = _seguridadRepository.ObtenerPorUsuario(usuario);
 

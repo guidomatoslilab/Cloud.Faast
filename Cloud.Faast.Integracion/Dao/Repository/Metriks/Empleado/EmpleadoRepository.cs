@@ -13,11 +13,11 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Empleado
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public EmpleadoResponseDto BuscarPorCorreo(string correo)
+        public EmpleadoResponseDto? BuscarPorCorreo(string correo)
         {
-            EmpleadoResponseDto empleadoResponse =  _context.Empleado
+            EmpleadoResponseDto? empleadoResponse =  _context.Empleado
                 .Join(_context.Cargo,empleado => empleado.prg_int_idcargo, cargo => cargo.prg_int_idcargo,(empleado, cargo) => new {empleado, cargo})
-                .Where(w => w.empleado.prg_vch_correo.ToLower().Equals(correo.ToLower()) && w.empleado.prg_int_estado.Equals(1))
+                .Where(w => w.empleado.prg_vch_correo != null && w.empleado.prg_vch_correo.ToLower().Equals(correo.ToLower()) && w.empleado.prg_int_estado.Equals(1))
                 .Select(s => new EmpleadoResponseDto()
                 {
                     Id = s.empleado.prg_int_idempleado,

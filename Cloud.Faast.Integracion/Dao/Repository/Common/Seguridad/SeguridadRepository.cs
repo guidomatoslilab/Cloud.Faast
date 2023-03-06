@@ -37,7 +37,7 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad
             return bandera;
         }
 
-        public UsuarioIntegracionEntity? Login(string? usuario, string? clave)
+        public UsuarioIntegracionEntity? Login(string usuario, string clave)
         {
             UsuarioIntegracionEntity? entity;
             try
@@ -57,7 +57,7 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Common.Seguridad
             return entity;
         }
 
-        public ContratoApiKeyEntity? ObtenerApiKey(string method, string key, string provider, string country)
+        public ContratoApiKeyEntity? ObtenerApiKey(string method, string? key, string? provider, string? country)
         {
             ContratoApiKeyEntity? dataItem;
             try

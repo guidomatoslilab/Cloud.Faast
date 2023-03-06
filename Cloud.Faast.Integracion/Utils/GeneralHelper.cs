@@ -11,7 +11,7 @@ namespace Cloud.Faast.Integracion.Utils
             SentrySdk.CaptureException(ex);
         }
 
-        public static async Task<string> ObtenerBodyString(this HttpRequest request, Encoding encoding = null)
+        public static async Task<string> ObtenerBodyString(this HttpRequest request, Encoding? encoding = null)
         {
             if (!request.Body.CanSeek)
             {

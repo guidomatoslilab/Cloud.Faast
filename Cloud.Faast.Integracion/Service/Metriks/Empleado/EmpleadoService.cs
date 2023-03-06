@@ -13,9 +13,9 @@ namespace Cloud.Faast.Integracion.Service.Metriks.Empleado
             _empleadoRepository = empleadoRepository;
         }
 
-        public EmpleadoResponseDto BuscarPorCorreo(string rut)
+        public EmpleadoResponseDto? BuscarPorCorreo(string correo)
         {
-            EmpleadoResponseDto empleado = _empleadoRepository.BuscarPorCorreo(rut);
+            var empleado = _empleadoRepository.BuscarPorCorreo(correo);
             return empleado;
         }
     }

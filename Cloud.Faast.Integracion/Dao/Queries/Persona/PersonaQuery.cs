@@ -2,11 +2,6 @@
 using Cloud.Faast.Integracion.Interface.Queries.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Dao.Queries.Persona
 {
@@ -28,25 +23,25 @@ namespace Cloud.Faast.Integracion.Dao.Queries.Persona
                     persona.prg_vch_razonsocial AS RazonSocial,
                     empleado.prg_vch_correo AS CorreoEjecutivo,
                     CASE
-                        WHEN {requestDto.Tipo} = {_config.Value.TipoPersona.Cliente} THEN TRUE
+                        WHEN {requestDto.Tipo} = {_config.Value.TipoPersona?.Cliente} THEN TRUE
                         ELSE EXISTS( SELECT 
                                 prg_int_idpersona
                             FROM
                                 tbl_prg_persona
                             WHERE
                                 prg_vch_rut = '{requestDto.Rut}'
-                                    AND prg_int_idtipo = {_config.Value.TipoPersona.Cliente}
+                                    AND prg_int_idtipo = {_config.Value.TipoPersona?.Cliente}
                             LIMIT 1)
                     END AS Cliente,
                     CASE
-                        WHEN {requestDto.Tipo} = {_config.Value.TipoPersona.Deudor} THEN TRUE
+                        WHEN {requestDto.Tipo} = {_config.Value.TipoPersona?.Deudor} THEN TRUE
                         ELSE EXISTS( SELECT 
                                 prg_int_idpersona
                             FROM
                                 tbl_prg_persona
                             WHERE
                                 prg_vch_rut = '{requestDto.Rut}'
-                                    AND prg_int_idtipo = {_config.Value.TipoPersona.Deudor}
+                                    AND prg_int_idtipo = {_config.Value.TipoPersona?.Deudor}
                             LIMIT 1)
                     END AS Deudor,
                     persona.prg_int_estado AS Estado
@@ -55,8 +50,8 @@ namespace Cloud.Faast.Integracion.Dao.Queries.Persona
                         LEFT JOIN
                     tbl_prg_personaempleado pempleado ON persona.prg_int_idpersona = pempleado.prg_int_idpersona
                         AND pempleado.prg_int_idnegocio = CASE
-                        WHEN  {requestDto.Tipo} = {_config.Value.TipoPersona.Cliente} THEN {_config.Value.TipoNegocio.BackOffice}
-                        ELSE {_config.Value.TipoNegocio.BackOffice}
+                        WHEN  {requestDto.Tipo} = {_config.Value.TipoPersona?.Cliente} THEN {_config.Value.TipoNegocio?.BackOffice}
+                        ELSE {_config.Value.TipoNegocio?.BackOffice}
                     END
                         LEFT JOIN
                     tbl_prg_empleado empleado ON pempleado.prg_int_idempleado = empleado.prg_int_idempleado

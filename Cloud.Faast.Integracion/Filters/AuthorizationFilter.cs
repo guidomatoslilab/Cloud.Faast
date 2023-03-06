@@ -29,7 +29,7 @@ namespace Cloud.Faast.Integracion.Filters
             var request = context.HttpContext.Request;
             string? controller = request.RouteValues["controller"]?.ToString();
             string? metodoAction = request.RouteValues["action"]?.ToString();
-            string? endPoint = request.Path;
+            string endPoint = request.Path;
 
             #endregion
             try
@@ -77,7 +77,7 @@ namespace Cloud.Faast.Integracion.Filters
                 string sHeader = Newtonsoft.Json.JsonConvert.SerializeObject(header);
                 string sTrace = string.Format("{0};{1};Body= {2};Header= {3}", DateTime.Now.ToString(), endPoint, sContract, sHeader);
 
-                ContratoDto dataItem = new ContratoDto()
+                ContratoDto dataItem = new()
                 {
                     Controller = controller,
                     Action = metodoAction,
@@ -99,7 +99,7 @@ namespace Cloud.Faast.Integracion.Filters
 
                 #region Validar Credenciales API KEY
 
-                Core.Proteccion.ApiKeyEntity keyEntity = Security.GetApiKey(header.apiKey);
+                ApiKeyEntity keyEntity = Security.GetApiKey(header.apiKey);
 
                 if (keyEntity == null)
                 {
@@ -107,7 +107,7 @@ namespace Cloud.Faast.Integracion.Filters
                     return;
                 }
 
-                ContratoApiKeyDto dataApiKey = _seguridadService.ObtenerApiKey(keyEntity.method, header.apiKey, header.provider, header.country);
+                ContratoApiKeyDto? dataApiKey = _seguridadService.ObtenerApiKey(keyEntity.method, header.apiKey, header.provider, header.country);
 
                 if (dataApiKey == null)
                 {

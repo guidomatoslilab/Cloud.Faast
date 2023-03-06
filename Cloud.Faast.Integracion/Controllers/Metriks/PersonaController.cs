@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Cloud.Core.Proteccion;
-using Cloud.Faast.Integracion.Filters;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Utils;

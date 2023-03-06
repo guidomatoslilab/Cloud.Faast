@@ -2,7 +2,7 @@
 {
     public class ServiceException : Exception
     {
-        public string Code { get; set; }
+        public string Code { get; set; } = "";
 
         public ServiceException(string messsage)
             : base(messsage)

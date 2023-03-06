@@ -2,16 +2,9 @@
 using Cloud.Core.Proteccion;
 using Cloud.Faast.Integracion.Interface.Service.Common.Seguridad;
 using Cloud.Faast.Integracion.Model.Dto.Common.Seguridad;
-using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Utils;
 using Cloud.Faast.Integracion.ViewModel.Common.Seguridad;
-using Cloud.Faast.Integracion.ViewModel.Metriks.Persona;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Controllers.Common
 {

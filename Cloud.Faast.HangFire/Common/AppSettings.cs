@@ -2,11 +2,11 @@
 {
     public class AppSettings
     {
-        public Orsan Orsan { get; set; }
+        public Orsan Orsan { get; set; } = new Orsan();
     }
     public class Orsan
     {
-        public FTP FTP { get; set; }
+        public FTP FTP { get; set; } = new FTP();
     }
     public class FTP
     {
