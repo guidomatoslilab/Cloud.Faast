@@ -6,12 +6,6 @@ using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.QueryResult.Metriks.Persona;
 using Microsoft.EntityFrameworkCore;
-using NetTopologySuite.IO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
 {
