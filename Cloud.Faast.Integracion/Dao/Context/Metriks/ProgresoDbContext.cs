@@ -3,6 +3,7 @@ using Cloud.Faast.Integracion.Model.Entity.Common.Seguridad;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Cargo;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Empleado;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
+using Cloud.Faast.Integracion.Model.QueryResult.Metriks.Persona;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cloud.Faast.Integracion.Dao.Context.Metriks
@@ -23,7 +24,8 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
         #endregion
 
         #region ENTIDADES GENERADAS A PARTIR DE UNA QUERY
-        public DbSet<BusquedaPersonaEntity> BusquedaPersona { get; set; }
+        public DbSet<BusquedaPersonaQueryResult> BusquedaPersona { get; set; }
+        public DbSet<BusquedaLineaClienteQueryResult> BusquedaLineaCliente { get; set; }
         #endregion
         public ProgresoDbContext(DbContextOptions<ProgresoDbContext> options) : base(options) { }
 
@@ -83,7 +85,8 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
 
 
             #region ENTIDADES GENERADAS A PARTIR DE UNA QUERY
-            modelBuilder.Entity<BusquedaPersonaEntity>().HasNoKey();
+            modelBuilder.Entity<BusquedaPersonaQueryResult>().HasNoKey();
+            modelBuilder.Entity<BusquedaLineaClienteQueryResult>().HasNoKey();
             #endregion
         }
     }
