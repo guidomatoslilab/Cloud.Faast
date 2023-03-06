@@ -1,9 +1,9 @@
 ﻿using Cloud.Faast.Integracion.Common.VariablesEntorno;
-using Cloud.Faast.Integracion.Interface.Queries.Persona;
+using Cloud.Faast.Integracion.Interface.Queries.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Microsoft.Extensions.Options;
 
-namespace Cloud.Faast.Integracion.Dao.Queries.Persona
+namespace Cloud.Faast.Integracion.Dao.Queries.Metriks.Persona
 {
     public class PersonaQuery : IPersonaQuery
     {

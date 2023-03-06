@@ -1,6 +1,6 @@
 ﻿using Cloud.Faast.Integracion.Dao.Commons;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
-using Cloud.Faast.Integracion.Interface.Queries.Persona;
+using Cloud.Faast.Integracion.Interface.Queries.Metriks.Persona;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cloud.Faast.Integracion.Interface.Queries.Persona
+namespace Cloud.Faast.Integracion.Interface.Queries.Metriks.Persona
 {
     public interface IPersonaQuery
     {

@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Cloud.Core.Proteccion;
+using Cloud.Faast.Integracion.Common.VariablesEntorno;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Utils;
 using Cloud.Faast.Integracion.ViewModel.Metriks.Persona;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace Cloud.Faast.Integracion.Controllers.Metriks
 {
@@ -15,12 +17,15 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
     {
 
         private readonly IPersonaService _personaService;
+        private readonly IPersonaCupoService _personaCupoService;
         private readonly IMapper _mapper;
-
-        public PersonaController(IPersonaService personaService, IMapper mapper)
+        private readonly IOptions<AppSettings> _config;
+        public PersonaController(IPersonaService personaService, IMapper mapper, IPersonaCupoService personaCupoService, IOptions<AppSettings> config)
         {
             _personaService = personaService;
             _mapper = mapper;
+            _personaCupoService = personaCupoService;
+            _config = config;
         }
 
 
@@ -47,14 +52,13 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 
         [HttpGet]
         [Route("[action]/{rut}")]
-        public ActionResult ObtenerLineas(string rut)
+        public ActionResult ObtenerLineaCliente(string rut)
         {
-            //EmpleadoResponseDto empleadoResponseDto = _personaService.Buscar(rut);
+            BusquedaLineaResponseDto empleadoResponseDto = _personaCupoService.ObtenerLineaPorPersona(rut, _config.Value.TipoPersona.Cliente);
 
-            //EmpleadoResponseViewModel response = _mapper.Map<EmpleadoResponseViewModel>(empleadoResponseDto);
+            BusquedaLineaResponseViewModel response = _mapper.Map<BusquedaLineaResponseViewModel>(empleadoResponseDto);
 
-            //return Ok(response);
-            return Ok();
+            return Ok(response);
         }
 
 

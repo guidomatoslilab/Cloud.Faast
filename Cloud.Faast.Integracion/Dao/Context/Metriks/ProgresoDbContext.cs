@@ -25,7 +25,7 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
 
         #region ENTIDADES GENERADAS A PARTIR DE UNA QUERY
         public DbSet<BusquedaPersonaQueryResult> BusquedaPersona { get; set; }
-        public DbSet<BusquedaLineaClienteQueryResult> BusquedaLineaCliente { get; set; }
+        public DbSet<BusquedaLineaPersonaQueryResult> BusquedaLineaPersona { get; set; }
         #endregion
         public ProgresoDbContext(DbContextOptions<ProgresoDbContext> options) : base(options) { }
 
@@ -86,7 +86,7 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
 
             #region ENTIDADES GENERADAS A PARTIR DE UNA QUERY
             modelBuilder.Entity<BusquedaPersonaQueryResult>().HasNoKey();
-            modelBuilder.Entity<BusquedaLineaClienteQueryResult>().HasNoKey();
+            modelBuilder.Entity<BusquedaLineaPersonaQueryResult>().HasNoKey();
             #endregion
         }
     }

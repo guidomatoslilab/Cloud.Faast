@@ -20,7 +20,13 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<IndicadorEntity>().HasNoKey();
+
+            modelBuilder.Entity<IndicadorEntity>(entity =>
+            {
+                entity.ToTable("tbl_indicador");
+                entity.HasNoKey();
+
+            });
 
         }
 
