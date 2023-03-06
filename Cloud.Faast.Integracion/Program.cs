@@ -72,8 +72,10 @@ try
     #region Configuracion Entityframework
 
     var progresoConnectionString = builder.Configuration.GetConnectionString("Progreso");
+    var indicadorConnectionString = builder.Configuration.GetConnectionString("Indicador");
 
     builder.Services.AddDbContext<ProgresoDbContext>(x => x.UseMySql(progresoConnectionString, ServerVersion.AutoDetect(progresoConnectionString)));
+    builder.Services.AddDbContext<IndicadorDbContext>(x => x.UseMySql(indicadorConnectionString, ServerVersion.AutoDetect(indicadorConnectionString)));
 
     #endregion
 
