@@ -11,6 +11,7 @@ namespace Cloud.Faast.Integracion.MapperProfiles.Metriks.Persona
             #region MAPEO DTO A VIEWMODEL
 
             CreateMap<BusquedaLineaResponseDto, BusquedaLineaResponseViewModel>();
+            CreateMap<BusquedaLineaDeudorResponseDto, BusquedaLineaDeudorResponseViewModel>();
 
             #endregion
         }

@@ -29,12 +29,12 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
         {
             EmpleadoResponseDto? empleadoResponseDto = _empleadoService.BuscarPorCorreo(correo);
 
-            EmpleadoResponseViewModel response = _mapper.Map<EmpleadoResponseViewModel>(empleadoResponseDto);
-
-            if (response is null)
+            if (empleadoResponseDto is null)
             {
-                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, response));
+                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, empleadoResponseDto));
             }
+
+            EmpleadoResponseViewModel? response = _mapper.Map<EmpleadoResponseViewModel>(empleadoResponseDto);
 
             return Ok(new ResponseApi(Variables.CodigosRespuesta.OK.ToString(), Variables.EstadosRespuesta.OK, Variables.MensajesRespuesta.OK, response));
         }

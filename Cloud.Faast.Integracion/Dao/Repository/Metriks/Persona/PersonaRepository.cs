@@ -65,5 +65,13 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
             return entidad;
 
         }
+
+        public PersonaEntity? ObtenerPersona(string rut, int tipoPersona)
+        {
+            PersonaEntity?  entidad = context.Persona.Where(w => w.prg_vch_rut.Equals(rut) && w.prg_int_idtipo.Equals(tipoPersona)).FirstOrDefault();
+
+            return entidad;
+
+        }
     }
 }

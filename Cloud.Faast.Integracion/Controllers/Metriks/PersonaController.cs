@@ -36,14 +36,14 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 
             var personaRequest = _mapper.Map<PersonaRequestDto>(request);
 
-            PersonaResponseDto personaResponseDto = _personaService.Buscar(personaRequest);
+            PersonaResponseDto? personaResponseDto = _personaService.Buscar(personaRequest);
 
-            PersonaResponseViewModel response = _mapper.Map<PersonaResponseViewModel>(personaResponseDto);
-
-            if (response is null)
+            if (personaResponseDto is null)
             {
-                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, response));
+                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, personaResponseDto));
             }
+
+            PersonaResponseViewModel? response = _mapper.Map<PersonaResponseViewModel>(personaResponseDto);
 
             return Ok(new ResponseApi(Variables.CodigosRespuesta.OK.ToString(), Variables.EstadosRespuesta.OK, Variables.MensajesRespuesta.OK, response));
         }
@@ -54,9 +54,14 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
         [Route("[action]/{rut}")]
         public ActionResult ObtenerLineaCliente(string rut)
         {
-            BusquedaLineaResponseDto empleadoResponseDto = _personaCupoService.ObtenerLineaPorPersona(rut, _config.Value.TipoPersona.Cliente);
+            BusquedaLineaResponseDto? lineaResponseDto = _personaCupoService.ObtenerLineaPorPersona(rut, _config.Value.TipoPersona.Cliente);
 
-            BusquedaLineaResponseViewModel response = _mapper.Map<BusquedaLineaResponseViewModel>(empleadoResponseDto);
+            if (lineaResponseDto is null)
+            {
+                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, lineaResponseDto));
+            }
+
+            BusquedaLineaResponseViewModel? response = _mapper.Map<BusquedaLineaResponseViewModel>(lineaResponseDto);
 
             return Ok(response);
         }
@@ -65,14 +70,19 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 
         [HttpGet]
         [Route("[action]/{rut}")]
-        public ActionResult ObtenerSubLineas(string rut)
+        public ActionResult ObtenerLineaDeudor(string rut)
         {
-            //EmpleadoResponseDto empleadoResponseDto = _personaService.Buscar(rut);
+            BusquedaLineaDeudorResponseDto? lineaDeudorResponseDto = _personaCupoService.ObtenerLineaPorDeudor(rut);
 
-            //EmpleadoResponseViewModel response = _mapper.Map<EmpleadoResponseViewModel>(empleadoResponseDto);
 
-            //return Ok(response);
-            return Ok();
+            if (lineaDeudorResponseDto is null)
+            {
+                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, lineaDeudorResponseDto));
+            }
+
+            BusquedaLineaDeudorResponseViewModel? response = _mapper.Map<BusquedaLineaDeudorResponseViewModel>(lineaDeudorResponseDto);
+
+            return Ok(response);
         }
 
         [HttpGet]

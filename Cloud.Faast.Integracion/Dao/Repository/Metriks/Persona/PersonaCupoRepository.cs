@@ -29,15 +29,23 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
 
             BusquedaLineaPersonaQueryResult? entidad = _context.BusquedaLineaPersona.FromSqlRaw(query).AsNoTracking().AsEnumerable().FirstOrDefault();
 
+            if (entidad is null)
+            {
+                return null;
+            }
+ 
             string tipoPersonaIndicador = tipoPersona == _config.Value.TipoPersona.Cliente ? "C" : "D";
 
             int rutEntero = int.Parse(rut.Substring(0, rut.Length - 2));
+
+
+            // SE TOMO LOGICA COMO REFERENCIA DEL SP : sp_ftb_sel_indicadores_cliente_deudor DE LA BD DE INDICADORES
 
             decimal concentracion = _indicadorContext.Indicador.Where(x => x.rut.Equals(rut) && x.id_rut.Equals(rutEntero) && x.co_tipo.Equals(tipoPersonaIndicador))
                 .Sum(s => s.mt_concentracion);
 
 
-            BusquedaLineaResponseDto response = new BusquedaLineaResponseDto()
+            BusquedaLineaResponseDto response = new ()
             {
                 LineaAutorizada = entidad?.LineaAutorizada ?? 0,
                 LineaUtilizada = concentracion,

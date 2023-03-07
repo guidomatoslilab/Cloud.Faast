@@ -1,5 +1,7 @@
 ﻿using Cloud.Core.Proteccion;
 using Cloud.Faast.Integracion.Utils;
+using Cloud.Faast.Integracion.Utils.ActionResults;
+using Cloud.Faast.Integracion.Utils.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Net;
@@ -24,15 +26,27 @@ namespace Cloud.Faast.Integracion.Filters
 
             var globalMessage = context.Exception.Message;
 
+            ResponseApi response;
+            if (context.Exception.GetType() == typeof(IntegracionException))
+            {
+                response = new ResponseApi("400", "EOK", globalMessage);
+
+                context.Result = new BadRequestObjectResult(response);
+                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                context.ExceptionHandled = true;
+                return;
+            }
+
             if (env.EnvironmentName != "Development")
             {
                 globalMessage = "No se ha podido procesar su solicitud.";
             }
 
-            var response = new ResponseApi("400", "EOK", globalMessage);
+            response = new ResponseApi("500", "EOK", globalMessage);
 
-            context.Result = new BadRequestObjectResult(response);
-            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+            context.Result = new InternalServerErrorObjectResult(response);
+            //context.Result = new BadRequestObjectResult(response);
+            context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.ExceptionHandled = true;
             GeneralHelper.LogSentryIO(context.Exception);
         }
