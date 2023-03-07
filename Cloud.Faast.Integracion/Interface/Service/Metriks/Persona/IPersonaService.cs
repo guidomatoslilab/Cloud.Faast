@@ -6,5 +6,6 @@ namespace Cloud.Faast.Integracion.Interface.Service.Metriks.Persona
     {
         PersonaResponseDto Buscar(PersonaRequestDto request);
         Task<BusquedaPersonaResponseDto> BuscarPersona(BusquedaPersonaRequestDto requestDto);
+        List<ObtenerCondicionComercialResponseDto> ObtenerCondicionComercial(ObtenerCondicionComercialRequestDto requestDto);
     }
 }

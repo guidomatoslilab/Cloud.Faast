@@ -41,5 +41,18 @@ namespace Cloud.Faast.Integracion.Service.Metriks.Persona
 
             return response;
         }
+
+        public List<ObtenerCondicionComercialResponseDto> ObtenerCondicionComercial(ObtenerCondicionComercialRequestDto requestDto)
+        {
+            var obtenerCondicionComercialResponseDto = new List<ObtenerCondicionComercialResponseDto>();
+
+            var responseQuery = _personaRepository.ObtenerCondicionComercial(requestDto);
+
+            obtenerCondicionComercialResponseDto.AddRange(from condicionComercial in responseQuery
+                                                          let condicionComercialDto = _mappper.Map<ObtenerCondicionComercialResponseDto>(condicionComercial)
+                                                     select condicionComercialDto);
+
+            return obtenerCondicionComercialResponseDto;
+        }
     }
 }

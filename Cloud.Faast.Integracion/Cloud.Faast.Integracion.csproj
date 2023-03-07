@@ -40,6 +40,7 @@
   <ItemGroup>
     <Folder Include="Dao\Context\Common\" />
     <Folder Include="DataService\" />
+    <Folder Include="Model\Dto\Metriks\CondicionComercial\" />
     <Folder Include="Validators\" />
   </ItemGroup>
 

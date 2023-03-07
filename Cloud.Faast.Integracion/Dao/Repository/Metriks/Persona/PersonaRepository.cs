@@ -65,5 +65,12 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
             return entidad;
 
         }
+
+        public List<ObtenerCondicionComercialQueryResult>? ObtenerCondicionComercial(ObtenerCondicionComercialRequestDto requestDto)
+        {
+            var query = _personaQuery.ObtenerCondicionComercial(requestDto);
+            var listResponse = context.ObtenerCondicionComercial.FromSqlRaw(query).AsNoTracking().AsEnumerable().ToList();
+            return listResponse;
+        }
     }
 }

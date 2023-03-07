@@ -8,5 +8,6 @@ namespace Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona
     {
         BusquedaPersonaQueryResult? Buscar(PersonaRequestDto requestDto);
         Task<BusquedaPersonaResponseDto> SearchPersona(BusquedaPersonaRequestDto requestDto);
+        List<ObtenerCondicionComercialQueryResult>? ObtenerCondicionComercial(ObtenerCondicionComercialRequestDto requestDto);
     }
 }

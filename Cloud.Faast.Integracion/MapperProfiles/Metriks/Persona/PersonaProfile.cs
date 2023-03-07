@@ -13,18 +13,20 @@ namespace Cloud.Faast.Integracion.MapperProfiles.Metriks.PersonaProfiles
             #region MAPEO DTO A VIEWMODEL
             CreateMap<PersonaResponseDto,PersonaResponseViewModel>();
             CreateMap<BusquedaPersonaResponseDto, BusquedaPersonaResponseViewModel>();
-
+            CreateMap<ObtenerCondicionComercialResponseDto, ObtenerCondicionComercialResponseViewModel>();
             #endregion
 
             #region MAPEO DE VIEWMODEL A DTO
 
             CreateMap<PersonaRequestViewModel, PersonaRequestDto>();
+            CreateMap<ObtenerCondicionComercialRequestViewModel, ObtenerCondicionComercialRequestDto>();
 
             #endregion
 
             #region MAPEO DE QUERY RESULT A DTO
 
             CreateMap<BusquedaPersonaQueryResult, PersonaResponseDto>();
+            CreateMap<ObtenerCondicionComercialQueryResult, ObtenerCondicionComercialResponseDto>();
 
             #endregion
         }

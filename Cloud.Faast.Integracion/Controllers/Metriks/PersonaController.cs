@@ -93,5 +93,31 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 
             return Ok(response);
         }
+
+        [HttpGet]
+        [Route("[action]/{rut}")]
+        public ActionResult ObtenerCondicionComercial(string rut)
+        {
+            var request = new ObtenerCondicionComercialRequestViewModel
+            {
+                Rut = rut
+            };
+            var response = new List<ObtenerCondicionComercialResponseViewModel>();
+
+            var condicionComercialRequest = _mapper.Map<ObtenerCondicionComercialRequestDto>(request);
+            var condicionComercialResponseDto = _personaService.ObtenerCondicionComercial(condicionComercialRequest);
+
+            response.AddRange(from condicionComercialDto in condicionComercialResponseDto
+                                                       let condicionComercialResponse = _mapper.Map<ObtenerCondicionComercialResponseViewModel>(condicionComercialDto)
+                                                          select condicionComercialResponse);
+
+            if (response is null || response?.Count == 0)
+            {
+                return NotFound(new ResponseApi(Variables.CodigosRespuesta.NOTFOUND.ToString(), Variables.EstadosRespuesta.NOK, Variables.MensajesRespuesta.NOTFOUND, response));
+            }
+
+            return Ok(new ResponseApi(Variables.CodigosRespuesta.OK.ToString(), Variables.EstadosRespuesta.OK, Variables.MensajesRespuesta.OK, response));
+        }
+
     }
 }
