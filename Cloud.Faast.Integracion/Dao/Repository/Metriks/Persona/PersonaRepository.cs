@@ -1,6 +1,6 @@
 ﻿using Cloud.Faast.Integracion.Dao.Commons;
 using Cloud.Faast.Integracion.Dao.Context.Metriks;
-using Cloud.Faast.Integracion.Interface.Queries.Persona;
+using Cloud.Faast.Integracion.Interface.Queries.Metriks.Persona;
 using Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
@@ -71,6 +71,14 @@ namespace Cloud.Faast.Integracion.Dao.Repository.Metriks.Persona
             var query = _personaQuery.ObtenerCondicionComercial(requestDto);
             var listResponse = context.ObtenerCondicionComercial.FromSqlRaw(query).AsNoTracking().AsEnumerable().ToList();
             return listResponse;
+        }
+        
+        public PersonaEntity? ObtenerPersona(string rut, int tipoPersona)
+        {
+            PersonaEntity?  entidad = context.Persona.Where(w => w.prg_vch_rut.Equals(rut) && w.prg_int_idtipo.Equals(tipoPersona)).FirstOrDefault();
+
+            return entidad;
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Cloud.Faast.Integracion.Model.Dto.Metriks.Persona;
+using Cloud.Faast.Integracion.Model.Entity.Metriks.Persona;
 using Cloud.Faast.Integracion.Model.QueryResult.Metriks.Persona;
 
 
@@ -9,5 +10,7 @@ namespace Cloud.Faast.Integracion.Interface.Repository.Metriks.Persona
         BusquedaPersonaQueryResult? Buscar(PersonaRequestDto requestDto);
         Task<BusquedaPersonaResponseDto> SearchPersona(BusquedaPersonaRequestDto requestDto);
         List<ObtenerCondicionComercialQueryResult>? ObtenerCondicionComercial(ObtenerCondicionComercialRequestDto requestDto);
+        PersonaEntity? ObtenerPersona(string rut, int tipoPersona);
+
     }
 }

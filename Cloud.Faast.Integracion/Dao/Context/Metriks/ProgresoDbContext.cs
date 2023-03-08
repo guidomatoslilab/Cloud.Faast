@@ -27,6 +27,7 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
         public DbSet<BusquedaPersonaQueryResult> BusquedaPersona { get; set; }
         public DbSet<BusquedaLineaClienteQueryResult> BusquedaLineaCliente { get; set; }
         public DbSet<ObtenerCondicionComercialQueryResult> ObtenerCondicionComercial { get; set; }
+        public DbSet<BusquedaLineaPersonaQueryResult> BusquedaLineaPersona { get; set; }
         #endregion
         public ProgresoDbContext(DbContextOptions<ProgresoDbContext> options) : base(options) { }
 
@@ -89,6 +90,7 @@ namespace Cloud.Faast.Integracion.Dao.Context.Metriks
             modelBuilder.Entity<BusquedaPersonaQueryResult>().HasNoKey();
             modelBuilder.Entity<BusquedaLineaClienteQueryResult>().HasNoKey();
             modelBuilder.Entity<ObtenerCondicionComercialQueryResult>().HasNoKey();
+            modelBuilder.Entity<BusquedaLineaPersonaQueryResult>().HasNoKey();
             #endregion
         }
     }
