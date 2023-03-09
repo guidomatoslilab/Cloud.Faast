@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Cloud.Core.Proteccion;
+using Cloud.Faast.Integracion.Filters;
 using Cloud.Faast.Integracion.Interface.Service.Metriks.Empleado;
 using Cloud.Faast.Integracion.Model.Dto.Metriks.Empleado;
 using Cloud.Faast.Integracion.Utils;
@@ -10,6 +11,8 @@ namespace Cloud.Faast.Integracion.Controllers.Metriks
 {
     [Route("api/v1/Metriks/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(LogFilter))]
+    [Authorize]
     public class EmpleadoController : ControllerBase
     {
 

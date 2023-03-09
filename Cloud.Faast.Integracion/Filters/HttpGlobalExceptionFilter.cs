@@ -20,10 +20,6 @@ namespace Cloud.Faast.Integracion.Filters
         }
         public void OnException(ExceptionContext context)
         {
-            logger.LogError(new EventId(context.Exception.HResult),
-                context.Exception,
-                context.Exception.Message);
-
             var globalMessage = context.Exception.Message;
 
             ResponseApi response;
@@ -48,7 +44,12 @@ namespace Cloud.Faast.Integracion.Filters
             //context.Result = new BadRequestObjectResult(response);
             context.HttpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.ExceptionHandled = true;
+
             GeneralHelper.LogSentryIO(context.Exception);
+
+            logger.LogError(new EventId(context.Exception.HResult),
+            context.Exception,
+            context.Exception.Message);
         }
     }
 }

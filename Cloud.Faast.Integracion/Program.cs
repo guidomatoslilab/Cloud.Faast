@@ -64,6 +64,7 @@ try
     #region Filters
     
     builder.Services.AddScoped<AuthorizationFilter>();
+    builder.Services.AddScoped<LogFilter>();
 
     #endregion
 

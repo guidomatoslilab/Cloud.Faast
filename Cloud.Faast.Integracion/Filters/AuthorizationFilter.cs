@@ -69,7 +69,7 @@ namespace Cloud.Faast.Integracion.Filters
 
                 if (request.Method == HttpMethods.Post && request.ContentLength > 0)
                 {
-                    string body = await GeneralHelper.ObtenerBodyString(request);
+                    string body = await HttpHelper.ObtenerBodyString(request);
 
                     sContract = Newtonsoft.Json.JsonConvert.SerializeObject(body);
                 }
